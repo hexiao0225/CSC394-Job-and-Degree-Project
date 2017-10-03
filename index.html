@@ -44,7 +44,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 
 	<!-- this is page 2 -->
 
@@ -82,13 +82,20 @@
 			<div ng-click="stepone()" class="col-sm-2" style="height: 100%;">
 				<button type="button" class="roundbutton">Back</button>
 			</div>
-			<div class="col-sm-8" style="height: 100%;" ></div>
+			<div class="col-sm-8" style="height: 100%;" >
+				<div class="progress">
+					<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+						60%
+    				<span class="sr-only">60% Complete</span>
+					</div>
+  			</div>
+			</div>
 			<div class="col-sm-2" style="height: 100%;">
 				<div ng-click="stepthree()">
 					<div>
 						<a href="#" class = "skip">Skip</a>
 						<button type="button" class="roundbutton" style="text-align: right">Next</button>
-					</div>	
+					</div>
 				</div>
 			</div>
 
@@ -129,7 +136,14 @@
 			<div ng-click="steptwo()" class="col-sm-2" style="height: 100%;">
 				<button type="button" class="roundbutton">Back</button>
 			</div>
-			<div class="col-sm-8" style="height: 100%;" ></div>
+			<div class="col-sm-8" style="height: 100%;" >
+				<div class="progress">
+					<div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+						80%
+    				<span class="sr-only">80% Complete</span>
+					</div>
+  			</div>
+			</div>
 			<div ng-click="stepfour()" class="col-sm-2" style="height: 100%;">
 				<a href="#" class = "skip">Skip</a>
 				<button type="button" class="roundbutton" style="text-align: right">Next</button>
@@ -162,55 +176,76 @@
 		<!-- first result -->
 		<div class="row" style="height:25%">
 			<div class="col-sm-2" style="height: 100%;"></div>
-			<div class="col-sm-1">
+			<div class="col-sm-1 match-percent">
 				<h3>90%</h3>
-			</div>			
+			</div>
 
-			<div class="col-sm-7" style="height: 100%;text-align:left">
+			<div class="col-sm-7 match-item" style="height: 100%;text-align:left">
 				<div>
 					<h3 style="font-size:25px;font-weight: bold">
 						Java developer
 					</h3>
 					<div>
 						<p>Java developer roles and responsibilities include managing Java/Java EE application development while providing expertise in the full software development lifecycle, from concept and design to testing.</p>
-					</div>			
-				</div>	
+					</div>
+				</div>
 			</div>
+			<!--<div class="col-sm-2" style="height: 100%;"></div>-->
+		</div>
+
+		<div class="row" style="height:25%">
 			<div class="col-sm-2" style="height: 100%;"></div>
+			<div class="col-sm-1 match-percent">
+				<h3>90%</h3>
+			</div>
+
+			<div class="col-sm-7 match-item" style="height: 100%;text-align:left">
+				<div>
+					<h3 style="font-size:25px;font-weight: bold">
+						Java developer
+					</h3>
+					<div>
+						<p>Java developer roles and responsibilities include managing Java/Java EE application development while providing expertise in the full software development lifecycle, from concept and design to testing.</p>
+					</div>
+				</div>
+			</div>
+			<!--<div class="col-sm-2" style="height: 100%;"></div>-->
 		</div>
 
 
 		<!-- second result -->
 		<div class="row" style="height:25%">
 			<div class="col-sm-2" style="height: 100%;"></div>
-			<div class="col-sm-1">
+			<div class="col-sm-1 match-percent">
 				<h3>70%</h3>
-			</div>			
+			</div>
 
-			<div class="col-sm-7" style="height: 100%;text-align:left">
+			<div class="col-sm-7 match-item" style="height: 100%;text-align:left">
 				<div>
-					
+
 					<h3 style="font-size:25px;font-weight: bold">
 						C++ Developer
 					</h3>
 					<div>
-						<p>Your primary responsibility will be to design and develop these applications, and to coordinate with the rest of the team working on different layers of the infrastructure.</p>	
-					</div>			
-				</div>	
+						<p>Your primary responsibility will be to design and develop these applications, and to coordinate with the rest of the team working on different layers of the infrastructure.</p>
+					</div>
+				</div>
 			</div>
 			<div class="col-sm-2" style="height: 100%;"></div>
 		</div>
 
-		
+
 
 		<div class="row" style="height:10%">
-			<div class="col-sm-2" style="height: 100%;"></div>
+			<!--<div class="col-sm-2" style="height: 100%;"></div>-->
 			<div class="col-sm-8" style="height: 100%;" >
 				<a href="#" ng-click="stepone()">Start Over</a>
 			</div>
-			<div class="col-sm-2" style="height: 100%;">
+		</div>
+		<div class="row">
+			<div class="col-sm-4" style="height: 100%;">
 				<div class="input-group">
-			      <input type="text" class="form-control" placeholder="ab@gmail.com">
+			      <input type="text" class="form-control" placeholder="Your Email">
 			      <span class="input-group-btn">
 			        <button class="btn btn-secondary" type="button" style="width:70px;">Send</button>
 			      </span>
@@ -267,8 +302,8 @@
 			<div class="col-sm-2" style="height: 100%;">
 				<div ng-click="stepsix()">
 					<div>
-						<a href="#" class= "skip">Skip</a>						
-					</div>	
+						<a href="#" class= "skip">Skip</a>
+					</div>
 					<div>
 						<button type="button" class="roundbutton" style="text-align: right">Next</button>
 					</div>
@@ -315,7 +350,7 @@
 			</div>
 			<div class="col-sm-8" style="height: 100%;" ></div>
 			<div ng-click="stepseven()" class="col-sm-2" style="height: 100%;">
-				<a href="#" class= "skip">Skip</a>						
+				<a href="#" class= "skip">Skip</a>
 				<button type="button" class="roundbutton" style="text-align: right">Next</button>
 			</div>
 		</div>
@@ -348,20 +383,20 @@
 			<div class="col-sm-2" style="height: 100%;"></div>
 			<div class="col-sm-1">
 				<h3>94%</h3>
-			</div>			
+			</div>
 
 			<div class="col-sm-7" style="height: 100%;text-align:left">
 				<div>
-					
+
 					<h3 style="font-size:25px;font-weight: bold">
 						MS in Computer Science
 					</h3>
 					<div>
 						<p>DePaul University, 52 credits</p>
-						<p>Exposes students to the complete life-cycle of computer application development including abstraction, modeling and algorithm development, leveraging computer systems ... </p> 
+						<p>Exposes students to the complete life-cycle of computer application development including abstraction, modeling and algorithm development, leveraging computer systems ... </p>
 						<a href="https://www.cdm.depaul.edu/academics/Pages/current/Requirements-MS-in-Computer-Science.aspx">see more</a>
-					</div>			
-				</div>	
+					</div>
+				</div>
 			</div>
 			<div class="col-sm-2" style="height: 100%;"></div>
 		</div>
@@ -372,22 +407,22 @@
 			<div class="col-sm-2" style="height: 100%;"></div>
 			<div class="col-sm-1">
 				<h3>80%</h3>
-			</div>			
+			</div>
 
 			<div class="col-sm-7" style="height: 100%;text-align:left">
 				<div>
-					
+
 					<h3 style="font-size:25px;font-weight: bold">
 						MS in Information System
 					</h3>
 					<div>
 						<p>DePaul University, 52 credits</p>
-						<p>Exposes students to the complete life-cycle of computer application development including abstraction, modeling and algorithm development, leveraging computer systems ... </p> 
+						<p>Exposes students to the complete life-cycle of computer application development including abstraction, modeling and algorithm development, leveraging computer systems ... </p>
 						<a href="https://www.cdm.depaul.edu/academics/Pages/current/Requirements-MS-in-Computer-Science.aspx">see more</a>
-					</div>			
-				</div>	
+					</div>
+				</div>
 			</div>
-			
+
 			<div class="col-sm-2" style="height: 100%;"></div>
 		</div>
 
@@ -414,9 +449,9 @@
 
 
 
-	
+
 
 
 
 </body>
-</html>	
+</html>

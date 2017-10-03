@@ -1,6 +1,11 @@
 body {
-    
+
 }
+
+.container{
+  padding: 10px;
+}
+
 .skip{
 	font-size: 16px;
 }
@@ -107,9 +112,19 @@ body {
     text-decoration: none;
     overflow: hidden;
     cursor: pointer;
-    
+
 }
 
 .roundbutton:hover{
 	background-color: #d9edf7;
+}
+
+.match-item{
+  background-color: green;
+  border: solid;
+}
+
+.match-percent{
+  background-color: red;
+  border: solid;
 }
