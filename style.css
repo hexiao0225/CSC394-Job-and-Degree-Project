@@ -26,7 +26,7 @@ body {
 }
 
  .btn {
-    position: relative;
+    /* position: relative;
     background-color: #98bed0;
     border: none;
     font-size: 28px;
@@ -37,9 +37,21 @@ body {
     text-align: center;
    /* -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;*/
-    text-decoration: none;
+    /*text-decoration: none;
     overflow: hidden;
+    cursor: pointer;*/
+    position: relative;
+    border: 0 !important;
+    &:focus { outline: 0; }
+    &:hover { top: 2px; }
+    &:active { top: 6px; }
     cursor: pointer;
+    -webkit-font-smoothing: antialiased;
+    font-weight: bold !important;
+
+    .border-radius(10);
+    .transition(all, 50ms, ease);
+    .btn(rgb(204, 204, 204), 20%);
 }
 
 .btn:active{
@@ -127,4 +139,9 @@ body {
 .match-percent{
   background-color: red;
   border: solid;
+}
+
+.multiple-choice{
+  border: solid;
+  border-radius: 3px;
 }

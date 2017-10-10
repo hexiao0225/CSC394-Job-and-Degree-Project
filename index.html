@@ -60,14 +60,14 @@
 
 		</div>
 
-		<div class="row" style="height:20%">
+		<div class="row" style="height:60%">
 			<div class="col-sm-2" style="height: 100%;">Question 1 out of 2</div>
-			<div class="col-sm-10" style="height: 100%;text-align:left;font-size: x-large;">I have a master in</div>
-		</div>
+			<div class="col-sm-10 multiple-choice" style="height: 100%;text-align:left;font-size: x-large;">I have a master in
+		<!--</div>-->
 
-		<div class="row" style="height:40%">
-			<div class="col-sm-2" style="height: 100%;"></div>
-			<div class="col-sm-8" style="height: 100%;">
+		<!--<div class="row" style="height:40%">-->
+			<!--<div class="col-sm-2" style="height: 100%;"></div>-->
+			<!--<div class="col-sm-8" style="height: 100%;">-->
 				<button type="button" class="btn btn-secondary btn-lg btn-block active">Computer Science</button>
 				<button type="button" class="btn btn-secondary btn-lg btn-block active">Information System</button>
 				<button type="button" class="btn btn-secondary btn-lg btn-block active">Design</button>
@@ -78,23 +78,21 @@
 
 		</div>
 
-		<div class="row" style="height:10%">
-			<div ng-click="stepone()" class="col-sm-2" style="height: 100%;">
-				<button type="button" class="roundbutton">Back</button>
+		<div class="row">
+			<div class="col-sm-2" style="height:100%; padding:none;" ng-click="stepone()">
+					<button type="button" class="btn btn-success btn-sm">Back</button>
 			</div>
-			<div class="col-sm-8" style="height: 100%;" >
-				<div class="progress">
-					<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+			<div class="col-sm-8 progress" style="height: 100%;" >
+					<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;padding:none;">
 						60%
     				<span class="sr-only">60% Complete</span>
 					</div>
-  			</div>
 			</div>
 			<div class="col-sm-2" style="height: 100%;">
 				<div ng-click="stepthree()">
 					<div>
-						<a href="#" class = "skip">Skip</a>
-						<button type="button" class="roundbutton" style="text-align: right">Next</button>
+						<a href="#" class = "btn btn-success btn-sm">Skip</a>
+						<button type="btn btn-success btn-sm" class="btn btn-success btn-sm" style="text-align: right">Next</button>
 					</div>
 				</div>
 			</div>
@@ -134,7 +132,7 @@
 
 		<div class="row" style="height:10%">
 			<div ng-click="steptwo()" class="col-sm-2" style="height: 100%;">
-				<button type="button" class="roundbutton">Back</button>
+				<button type="button" class="btn btn-success btn-sm">Back</button>
 			</div>
 			<div class="col-sm-8" style="height: 100%;" >
 				<div class="progress">
@@ -145,8 +143,8 @@
   			</div>
 			</div>
 			<div ng-click="stepfour()" class="col-sm-2" style="height: 100%;">
-				<a href="#" class = "skip">Skip</a>
-				<button type="button" class="roundbutton" style="text-align: right">Next</button>
+				<a href="#" class = "btn btn-success btn-sm">Skip</a>
+				<button type="button" class="btn btn-success btn-sm" style="text-align: right">Next</button>
 			</div>
 		</div>
 	</div>
@@ -239,7 +237,7 @@
 		<div class="row" style="height:10%">
 			<!--<div class="col-sm-2" style="height: 100%;"></div>-->
 			<div class="col-sm-8" style="height: 100%;" >
-				<a href="#" ng-click="stepone()">Start Over</a>
+				<a href="#" class = "btn btn-success btn-sm" ng-click="stepone()">Start Over</a>
 			</div>
 		</div>
 		<div class="row">
