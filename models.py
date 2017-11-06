@@ -54,3 +54,14 @@ class JobKeywords(db.Model):
 class DegreeKeywords(db.Model):
     keywordID = db.Column(db.Integer, db.ForeignKey('keyword.id'), primary_key=True)
     degreeID = db.Column(db.Integer, db.ForeignKey('degree.id'), primary_key=True)
+
+class KeywordAnswer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    questionID = db.Column(db.Integer, db.ForeignKey('keyword_question.id'))
+    answer = db.Column(db.Text)
+    correct = db.Column(db.Boolean, default=False)
+
+class KeywordQuestion(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    keywordID = db.Column(db.Integer, db.ForeignKey('keyword.id'))
+    question = db.Column(db.Text)
