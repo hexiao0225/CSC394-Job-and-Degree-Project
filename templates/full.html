@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+<<<<<<< HEAD:templates/full.html
+
+=======
 	
+>>>>>>> 368e690de83e6cfa899882f76596f5740985219c:index.html
 	<title>Job and Degree Website</title>
 	<meta name="viewport" content="width=device-width" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="static/css/style.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
@@ -13,17 +17,16 @@
 	<!-- <link rel="stylesheet" media="mediatype and|not|only (media feature)" href="mystylesheet.css"> -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.min.js"></script>
-	<script rel="stylesheet" type="text/javascript" src="ui-bootstrap-2.4.0.js"></script>
-	<script rel="stylesheet" type="text/javascript" src="ui-bootstrap-tpls-2.4.0.js"></script>
+	<script rel="stylesheet" type="text/javascript" src="static/js/ui-bootstrap-2.4.0.js"></script>
+	<script rel="stylesheet" type="text/javascript" src="static/js/ui-bootstrap-tpls-2.4.0.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 
-	<script type="text/javascript" src="job_and_degree.js"></script>
+	<script type="text/javascript" src="static/js/job_and_degree.js"></script>
 
-	<head>
-
+</head>
 
 		<body ng-app = "app" ng-controller="ctrl" ng-switch="step" class="container-fluid" style="margin: 0;padding: 0;height: 100vh;font-family: 'Myriad Pro', sans-serif;">
 			<!-- this is page 1 -->
@@ -99,7 +102,7 @@
 					<div class="col-sm-3" style="height: 100%;"></div>
 					<div class="col-sm-6" style="height: 100%;">
 						<div>
-							<button type="button" ng-repeat="item in degreelist" ng-click="ischosen(item)" ng-class="{btn: item.selected == false, btnselected: item.selected == true}" class="btn btn-secondary btn-lg btn-block active">{{item.degree}}</button>
+							<button type="button" ng-repeat="item in degreelist" ng-click="ischosen(item)" ng-class="{btn: item.selected == false, btnselected: item.selected == true}" class="btn btn-secondary btn-lg btn-block active">A Degree</button>
 
 						</div>
 
@@ -166,7 +169,7 @@
 					<div class="col-sm-3" style="height: 100%;"></div>
 					<div class="col-sm-6" style="height: 100%;">
 						<div>
-							<button type="button" ng-repeat="item in skillset" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">{{item.skill}}</button>
+							<button type="button" ng-repeat="item in skillset" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">A Skill</button>
 
 						</div>
 					</div>
@@ -224,21 +227,21 @@
 						<div ng-repeat="item in samplequestion" style="font-weight: lighter;text-align: left">
 							<div>
 								<p style="padding-bottom: 20px">
-									{{item.description}}
+									A Description
 								</p>
 							</div>
 							<div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{item.answera}}</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block active">Answer A</button>
 								</div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{item.answerb}}</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block active">Answer B</button>
 								</div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{item.answerc}}</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block active">Answer C</button>
 								</div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{item.answerd}}</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block active">Answer D</button>
 								</div>
 							</div>
 
@@ -394,7 +397,7 @@
 					<div class="col-sm-6" style="height: 100%;">
 
 						<div>
-							<button type="button" ng-repeat="item in joblist" ng-click="ischosen(item)" ng-class="{btn: item.selected == false, btnselected: item.selected == true}" class="btn btn-secondary btn-lg btn-block active">{{item.job}}</button>
+							<button type="button" ng-repeat="item in joblist" ng-click="ischosen(item)" ng-class="{btn: item.selected == false, btnselected: item.selected == true}" class="btn btn-secondary btn-lg btn-block active">A Job</button>
 
 						</div>
 
@@ -459,7 +462,7 @@
 					<div class="col-sm-3" style="height: 100%;"></div>
 					<div class="col-sm-6" style="height: 100%;">
 						<div>
-							<button type="button" ng-repeat="item in skillset" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">{{item.skill}}</button>
+							<button type="button" ng-repeat="item in skillset" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">A Skill</button>
 						</div>
 
 
@@ -520,21 +523,21 @@
 						<div ng-repeat="item in samplequestion" style="font-weight: lighter;text-align: left">
 							<div>
 								<p style="padding-bottom: 20px">
-									{{item.description}}
+									A Description
 								</p>
 							</div>
 							<div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answera}}</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">Answer A</button>
 								</div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answerb}}</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">Answer B</button>
 								</div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answerc}}</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">Answer C</button>
 								</div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answerd}}</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">Answer D</button>
 								</div>
 							</div>
 
