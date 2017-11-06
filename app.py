@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+#!flask/bin/python
+>>>>>>> c6c79b1648a4c7cc1910dd6113e23d296b8a877c
 import random
 
 from flask import Flask, current_app, render_template, request, jsonify
@@ -5,6 +9,11 @@ from flask import Flask, current_app, render_template, request, jsonify
 from config import app
 from models import db, Keyword, Job, Degree, JobKeywords, DegreeKeywords, KeywordAnswer, KeywordQuestion
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> c6c79b1648a4c7cc1910dd6113e23d296b8a877c
 def dbJSON(obj):
     """
     Returns JSON format of database objects
@@ -17,6 +26,37 @@ def dbJSON(obj):
         json_obj['data'].append(tmp)
     return jsonify(json_obj)
 
+<<<<<<< HEAD
+=======
+    """
+        hard code the first page with degree titles for now.
+    """
+
+degreetitles = [
+    {
+        'id': 1,
+        'degreetitle': u'Computer Science',
+    },
+    {
+        'id': 2,
+        'degreetitle': u'Information System',
+    },
+    {
+        'id': 3,
+        'degreetitle': u'Design',
+    },
+    {
+        'id': 4,
+        'degreetitle': u'Other',
+    }
+]
+
+@app.route('/api/degreetitles',methods=['GET'])
+def getDegreetitle():
+    return jsonify({'degreetitles': degreetitles})
+
+
+>>>>>>> c6c79b1648a4c7cc1910dd6113e23d296b8a877c
 @app.route('/api/skills', methods=['GET'])
 def retrieveSkills():
     """
@@ -27,7 +67,13 @@ def retrieveSkills():
     target = request.args.get('target')
     title = request.args.get('title')
     if target == None and title == None:
+<<<<<<< HEAD
         return dbJSON(Keyword.query.all())
+=======
+
+        return dbJSON(Keyword.query.all())
+
+>>>>>>> c6c79b1648a4c7cc1910dd6113e23d296b8a877c
     if target == 'job' and title != None:
         job_object = Job.query.filter_by(title=title).first()
         if job_object:
@@ -44,7 +90,11 @@ def retrieveSkills():
 def retrieveQuestion():
     """
     Retrieves question and answer based on skill parameter
+<<<<<<< HEAD
         i.e /api/question?skill=cpp
+=======
+        i.e /api/question?skill=csharp
+>>>>>>> c6c79b1648a4c7cc1910dd6113e23d296b8a877c
     """
     skill = request.args.get("skill")
     if skill == None:
