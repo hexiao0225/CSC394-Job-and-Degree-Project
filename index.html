@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Job and Degree Website</title>
+	<meta name="viewport" content="width=device-width" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	
+
+	<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+	<!-- <link rel="stylesheet" media="mediatype and|not|only (media feature)" href="mystylesheet.css"> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.min.js"></script>
+	<script rel="stylesheet" type="text/javascript" src="ui-bootstrap-2.4.0.js"></script>
+	<script rel="stylesheet" type="text/javascript" src="ui-bootstrap-tpls-2.4.0.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+	<script type="text/javascript" src="job_and_degree.js"></script>
+
+	<head>
+
+
+		<body ng-app = "app" ng-controller="ctrl" ng-switch="step" class="container-fluid" style="margin: 0;padding: 0;height: 100vh;font-family: 'Myriad Pro', sans-serif;">
+			<!-- this is page 1 -->
+
+
+			<div class="container" id="homepage" ng-switch-when="one" style="height: 100%;">	
+				<div class="row" style="height:37%;"></div>
+
+				<div class="row" style="height:20%;">
+					<p class="cover-heading" style="font-size: 60pt;font-weight:bold;color:white;text-align:center;">Kalia helps you</p>
+				</div>
+
+				<div class="row" style="height:12%;font-weight:light;">
+					<div class="col-sm-6" style="height: 100%;font-size: 20px;font-weight:lighter;text-align:right;padding-right:50px">
+						<p>find the jobs matching your master degree</p>
+					</div>
+					<div class="col-sm-6" style="height: 100%;font-size: 20px;font-weight:lighter;text-align:left;padding-left:50px;">
+						<p>find master degrees leading to your ideal job</p>
+					</div>
+
+
+				</div>
+				<div class="row" style="height:5%;font-weight:300;">
+					<div class="col-sm-6" ng-click="steptwo()" style="height: 100%;text-align:right;padding-right:100px;">
+						<button type="button" class="homebtn" style="font-size: 15px;font-weight:lighter;border:1px solid black;" ng-click="callDegreeTitlesApi()">Job</button>
+					</div>
+					<div class="col-sm-6" ng-click="stepsix()" style="height: 100%;text-align:left;padding-left:100px;">
+						<button type="button" class="homebtn" style="font-size: 15px;font-weight:lighter;border:1px solid black;">Degree</button>
+					</div>
+
+
+				</div>
+			</div>
+
+
+			<!-- this is page 2 -->
+
+			<div class="container" ng-switch-when="two" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+				<div class="row" style="height:5%"></div>
+				<div class="row" style="height:12%">
+
+					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+						<button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span>
+						</button>
+
+					</div>
+					<div class="col-sm-6" style="height: 100%;">
+
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+
+				</div>
+
+
+				<div class="row" style="height: 8%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;">
+						<div class="progress" style="height: 10px;">
+							<div class="progress-bar" role="progressbar" style="width: 30%;background:#a8c1ce;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>		
+				</div>	
+
+
+				<div class="row" style="height:10%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-9" style="height: 100%;text-align:left;font-size: 20px;">I have a master in</div>
+				</div>
+
+				<div class="row" style="height:40%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;">
+						<div>
+							<button type="button" ng-repeat="degreetitle in degreetitles" ng-click="degreeChoice(degreetitle.id);degreetitle.selected = !degreetitle.selected" ng-class="{btn: degreetitle.selected == false, btnselected: degreetitle.selected == true}" class="btn btn-secondary btn-lg btn-block active">{{degreetitle.degreetitle}}</button>
+
+						</div>
+
+					</div>
+					<div class="col-sm-2" style="height: 100%;"></div>
+
+				</div>
+
+				<div class="row" style="height:10%">
+					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: right;">
+						<button type="button" class="roundbutton"><</button>
+					</div>
+					<div class="col-sm-6" style="height: 100%;" ></div>
+					<div class="col-sm-3" style="height: 100%;">
+						<div ng-click="stepthree()">
+							<div style="text-align: left">
+								<!-- <a href="#" style="text-align: left;padding-right: 30px" class = "skip">Skip</a> -->
+								<button type="button" class="roundbutton" style="text-align: center;" ng-click="callSkillApi(degreeChoiceForParse);">
+									<!-- <i class="material-icons large" style="color:white;">chevron_left</i> -->
+									>
+								</button>
+
+							</div>	
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- this is page 3 -->
+
+			<div class="container" ng-switch-when="three" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+				<div class="row" style="height:5%"></div>
+				<div class="row" style="height:12%">
+
+					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+						<button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span>
+						</button>
+
+					</div>
+
+					<div class="col-sm-6" style="height: 100%;"></div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+				</div>
+
+				<div class="row" style="height: 8%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;">
+						<div class="progress" style="height: 10px;">
+							<div class="progress-bar" role="progressbar" style="width: 60%;background:#a8c1ce;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>		
+				</div>	
+
+				<div class="row" style="height:10%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-9" style="height: 100%;text-align:left;font-size: 20px;">
+						<p>I have experience in</p>
+					</div>
+				</div>
+
+				<div class="row" style="height:40%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;">
+						<div>
+							<button type="button" ng-repeat="item in skills" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">{{item.key}}</button>
+
+						</div>
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+				</div>
+
+				<div class="row" style="height:10%">
+					<div ng-click="steptwo()" class="col-sm-3" style="height: 100%;text-align: right;">
+						<button type="button" class="roundbutton"><</button>
+					</div>
+					<div class="col-sm-6" style="height: 100%;" ></div>
+					<div ng-click="stepfour()" class="col-sm-3" style="height: 100%;text-align: left;">
+						<!-- <a href="#" class = "skip" style="text-align: left;padding-right: 30px">Skip</a> -->
+						<button type="button" class="roundbutton" style="text-align: center;" ng-click="callQuestionApi()">></button>
+					</div>
+				</div>
+			</div>
+
+			<!-- this is page 4 -->
+			<div class="container" ng-switch-when="four" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+				<div class="row" style="height:5%"></div>
+				<div class="row" style="height:12%">
+
+					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+						<button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span>
+						</button>
+
+					</div>
+
+					<div class="col-sm-6" style="height: 100%;"></div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+				</div>
+
+				<div class="row" style="height: 8%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;">
+						<div class="progress" style="height: 10px;">
+							<div class="progress-bar" role="progressbar" style="width: 95%;background:#a8c1ce;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>		
+				</div>	
+
+				<div class="row" style="height:5%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-9" style="height: 100%;text-align:left;font-size: 20px;">
+						<p>Try these questions</p>
+					</div>
+				</div>
+
+				<div class="row" style="height:45%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;text-align: left;font-size: 20px;">
+						<div style="font-weight: lighter;text-align: left">
+							<div>
+								<p style="padding-bottom: 20px">
+									{{questions.question}}
+								</p>
+							</div>
+							<div>
+								<div style="padding-bottom: 6px" ng-repeat="option in questions.options">
+									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{option}}</button>
+								</div>
+								<!-- <div style="padding-bottom: 6px">
+									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{item.answerb}}</button>
+								</div>
+								<div style="padding-bottom: 6px">
+									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{item.answerc}}</button>
+								</div>
+								<div style="padding-bottom: 6px">
+									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{item.answerd}}</button>
+								</div> -->
+							</div>	
+
+						</div>
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+				</div>
+
+				<div class="row" style="height:10%">
+					<div ng-click="steptwo()" class="col-sm-3" style="height: 100%;text-align: right;">
+						<button type="button" class="roundbutton"><</button>
+					</div>
+					<div class="col-sm-6" style="height: 100%;" ></div>
+					<div ng-click="stepfive()" class="col-sm-3" style="height: 100%;text-align: left;">
+						<!-- <a href="#" class = "skip">Skip</a> -->
+						<button type="button" class="roundbutton">></button>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- this is page 5 -->
+
+			<div class="container" ng-switch-when="five" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+				<div class="row" style="height:5%"></div>
+				<div class="row" style="height:10%">
+					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+						<button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span>
+						</button>
+
+					</div>
+
+					<div class="col-sm-6" style="height: 100%;"></div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+
+				</div>
+
+				<div class="row" style="height:10%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-9" style="height: 100%;text-align:left;font-size: 25px;">
+						<h3>Your best matches are</h3>
+					</div>
+				</div>
+
+				<!-- first result -->
+
+				<div class="row" style="height:25%">
+					<div class="col-sm-3" style="height: 100%;">
+						 
+					</div>
+					<div class="col-sm-1">
+						<p class="percentage">90%</p>
+					</div>			
+
+					<div class="col-sm-5" style="height: 100%;text-align:left">
+						<div>
+							<p style="font-size:20px;font-weight: bold">
+								Java developer
+							</p>
+							<div style="font-size:15px;font-weight: lighter;">
+								<p>Java developer roles and responsibilities include managing Java/Java EE application development while providing expertise in the full software development lifecycle, from concept and design to testing.</p>
+							</div>
+						</div>	
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+				</div>
+
+
+				<!-- second result -->
+
+				<div class="row" style="height:25%">
+					<div class="col-sm-3" style="height: 100%;">
+						<img src="polarbear.gif" style="height: 120%;width: auto;">
+					</div>
+					<div class="col-sm-1">
+						<p class="percentage">70%</p>
+					</div>			
+
+					<div class="col-sm-5" style="height: 100%;text-align:left">
+						<div>
+
+							<p style="font-size:20px;font-weight: bold">
+								C++ developer
+							</p>
+							<div style="font-size:15px;font-weight: lighter;">
+								<p>Your primary responsibility will be to design and develop these applications, and to coordinate with the rest of the team working on different layers of the infrastructure.</p>	
+							</div>			
+						</div>	
+					</div>
+					<div class="col-sm-3" style="height: 100%;">
+					</div>
+				</div>
+
+
+
+				<div class="row" style="height:10%;text-align: right;">
+					<div class="col-sm-4" style="height: 100%;"></div>
+					<div class="col-sm-2" style="height: 100%;text-align: right;">
+						<div class="input-group" style="width: 250px;">
+							<input type="text" class="form-control" placeholder="example@gmail.com">
+							<span class="input-group-btn">
+								<button class="btn btn-secondary" type="button" style="width: 60px;text-align:center;">Send</button>
+							</span>
+						</div>
+					</div>
+					
+					
+					<div class="col-sm-3" style="height: 100%;text-align: right;" >
+						<button class="btn" ng-click="stepone();setalltofalse()" style="text-align:center;">Start Over</button>
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+			<!-- this is page 6(degree) -->
+
+			<div class="container" ng-switch-when="six" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+				<div class="row" style="height:5%"></div>
+				<div class="row" style="height:12%">
+
+					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+						<button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span>
+						</button>
+
+					</div>
+					<div class="col-sm-6" style="height: 100%;"></div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+
+				</div>
+				<div class="row" style="height: 8%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;">
+						<div class="progress" style="height: 10px;">
+							<div class="progress-bar" role="progressbar" style="width: 30%;background:#a8c1ce;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>		
+				</div>	
+
+				<div class="row" style="height:10%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-9" style="height: 100%;text-align:left;font-size: 20px;">My ideal job is</div>
+				</div>
+
+				<div class="row" style="height:40%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;">
+
+						<div>
+							<button type="button" ng-repeat="item in joblist" ng-click="ischosen(item)" ng-class="{btn: item.selected == false, btnselected: item.selected == true}" class="btn btn-secondary btn-lg btn-block active">{{item.job}}</button>
+
+						</div>
+
+
+
+
+
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+
+				</div>
+
+				<div class="row" style="height:10%">
+					<div ng-click="stepfour()" class="col-sm-3" style="height: 100%;text-align: right;">
+						<button type="button" class="roundbutton"><</button>
+					</div>
+					<div class="col-sm-6" style="height: 100%;" ></div>
+					<div class="col-sm-3" style="height: 100%;text-align: left;">
+						<div ng-click="stepseven()">
+							<div>
+								<button type="button" class="roundbutton">></button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- this is page 7 -->
+
+			<div class="container" ng-switch-when="seven" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+				<div class="row" style="height:5%"></div>
+				<div class="row" style="height:12%">
+
+					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+						<button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span>
+						</button>
+
+					</div>
+
+					<div class="col-sm-6" style="height: 100%;"></div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+				</div>
+
+				<div class="row" style="height: 8%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;">
+						<div class="progress" style="height: 10px;">
+							<div class="progress-bar" role="progressbar" style="width: 60%;background:#a8c1ce;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>		
+				</div>	
+				<div class="row" style="height:10%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-9" style="height: 100%;text-align:left;font-size: 20px;">
+						<p>I have experience in</p>
+					</div>
+				</div>
+
+				<div class="row" style="height:40%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;">
+						<div>
+							<button type="button" ng-repeat="item in skillset" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">{{item.skill}}</button>
+						</div>
+
+
+
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+				</div>
+
+				<div class="row" style="height:10%">
+					<div ng-click="stepsix()" class="col-sm-3" style="height: 100%;text-align: right;">
+						<button type="button" class="roundbutton"><</button>
+					</div>
+					<div class="col-sm-6" style="height: 100%;" ></div>
+					<div ng-click="stepeight()" class="col-sm-3" style="height: 100%;text-align: left;">
+						<!-- <a href="#" class= "skip">Skip</a> -->						
+						<button type="button" class="roundbutton">></button>
+					</div>
+				</div>
+			</div>
+
+			<!-- this is page 8 -->
+			<div class="container" ng-switch-when="eight" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+
+				<div class="row" style="height:5%"></div>
+				<div class="row" style="height:12%">
+
+					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+						<button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span>
+						</button>
+
+					</div>
+
+					<div class="col-sm-6" style="height: 100%;"></div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+				</div>
+				<div class="row" style="height: 8%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;">
+						<div class="progress" style="height: 10px;">
+							<div class="progress-bar" role="progressbar" style="width: 95%;background:#a8c1ce;" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>		
+				</div>	
+
+				<div class="row" style="height:5%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-9" style="height: 100%;text-align:left;font-size: 20px;">
+						<p>Try these questions</p>
+					</div>
+				</div>
+
+				<div class="row" style="height:45%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;text-align: left;font-size: 20px;">
+
+						<div ng-repeat="item in samplequestion" style="font-weight: lighter;text-align: left">
+							<div>
+								<p style="padding-bottom: 20px">
+									{{item.description}}
+								</p>
+							</div>
+							<div>
+								<div style="padding-bottom: 6px">
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answera}}</button>
+								</div>
+								<div style="padding-bottom: 6px">
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answerb}}</button>
+								</div>
+								<div style="padding-bottom: 6px">
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answerc}}</button>
+								</div>
+								<div style="padding-bottom: 6px">
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answerd}}</button>
+								</div>
+							</div>	
+
+						</div>
+
+					</div>
+				</div>	
+
+				<div class="row" style="height:10%">
+					<div ng-click="stepseven()" class="col-sm-3" style="height: 100%;text-align: right;">
+						<button type="button" class="roundbutton" style="text-align: center;"><</button>
+					</div>
+					<div class="col-sm-6" style="height: 100%;" ></div>
+					<div ng-click="stepnine()" class="col-sm-3" style="height: 100%;text-align:left;">
+
+						<button type="button" class="roundbutton" style="text-align: center;">></button>
+					</div>
+				</div>
+			</div>
+
+			<!-- this is page 9 -->
+
+			<div class="container" ng-switch-when="nine" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+				<div class="row" style="height:5%"></div>
+				<div class="row" style="height:10%">
+					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+						<button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span>
+						</button>
+
+					</div>
+
+					<div class="col-sm-6" style="height: 100%;"></div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+
+				</div>
+
+				<div class="row" style="height:10%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-9" style="height: 100%;text-align:left;font-size:25px;">
+						<p>Your best matches are</p>
+					</div>
+				</div>
+
+				<!-- first result -->
+				<div class="row" style="height:25%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-1">
+						<p class="percentage">94%</p>
+					</div>			
+
+					<div class="col-sm-5" style="height: 100%;text-align:left">
+						<div>
+							<p style="font-size:20px;font-weight: bold">
+								MS in Computer Science
+							</p>
+							<div style="font-weight: lighter;font-size: 15px">
+								<p>DePaul University, 52 credits</p>
+								<p>Exposes students to the complete life-cycle of computer application development including abstraction, modeling and algorithm development, leveraging computer systems ... </p> 
+								<a href="https://www.cdm.depaul.edu/academics/Pages/current/Requirements-MS-in-Computer-Science.aspx">see more</a>
+							</div>			
+						</div>	
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+				</div>
+
+
+				<!-- second result -->
+
+				<div class="row" style="height:25%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-1">
+						<p class="percentage">80%</p>
+					</div>			
+
+					<div class="col-sm-5" style="height: 100%;text-align:left">
+						<div>
+
+							<p style="font-size:20px;font-weight: bold">
+								MS in Information System
+							</p>
+							<div style="font-weight: lighter;font-size: 15px">
+								<p>DePaul University, 52 credits</p>
+								<p>Exposes students to the complete life-cycle of computer application development including abstraction, modeling and algorithm development, leveraging computer systems ... </p> 
+								<a href="https://www.cdm.depaul.edu/academics/Pages/current/Requirements-MS-in-Computer-Science.aspx">see more</a>
+							</div>			
+						</div>	
+					</div>
+
+					<div class="col-sm-3" style="height: 100%;"></div>
+				</div>
+
+
+
+
+
+				<div class="row" style="height:10%;text-align: right;">
+					<div class="col-sm-4" style="height: 100%;"></div>
+					<div class="col-sm-2" style="height: 100%;text-align: right;">
+						<div class="input-group" style="width: 250px;">
+							<input type="text" class="form-control" placeholder="example@gmail.com">
+							<span class="input-group-btn">
+								<button class="btn btn-secondary" type="button" style="width: 60px;text-align:center;">Send</button>
+							</span>
+						</div>
+					</div>
+					
+					
+					<div class="col-sm-3" style="height: 100%;text-align: right;" >
+						<button class="btn" ng-click="stepone();setalltofalse()" style="text-align:center;">Start Over</button>
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+		</body>
+		</html>	
