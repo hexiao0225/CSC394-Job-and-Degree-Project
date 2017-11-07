@@ -3,9 +3,8 @@ var app = angular.module('app',['ui.bootstrap','ngAnimate'])
 
 
 app.controller('ctrl', ['$scope','$http','apiService', function($scope,$http,apiService) {
-	console.log('test')
 	$scope.step = "one";
-	
+
 // 	var selected = -1;
 
 // ng-click='selected = $index'
@@ -20,8 +19,8 @@ app.controller('ctrl', ['$scope','$http','apiService', function($scope,$http,api
 		}else{
 			$scope.isclicked = false;
 		};
-		
-		
+
+
 	};
 
 	// [{name:'a',selectred:true},{name:'b'},{name:'c'}] ng-repeat="item in list" ng-click="item.selected = !item.selected"
@@ -172,7 +171,7 @@ app.controller('ctrl', ['$scope','$http','apiService', function($scope,$http,api
 		$scope.degreetitles = data.data.degreetitles;
 		console.log('This is degreetitle');
 		console.log($scope.degreetitles);
-		
+
 	};
 
 	$scope.callDegreeTitlesApi = function () {
@@ -189,7 +188,7 @@ app.controller('ctrl', ['$scope','$http','apiService', function($scope,$http,api
 		$scope.skills = data.data.data;
 		console.log('This is skillset');
 		console.log($scope.skills);
-		
+
 	};
 
 	$scope.callSkillApi = function (degreeChoiceForParse) {
@@ -204,7 +203,7 @@ app.controller('ctrl', ['$scope','$http','apiService', function($scope,$http,api
 		$scope.questions = data.data.data;
 		console.log('This is question');
 		console.log($scope.questions);
-		
+
 	};
 
 	$scope.callQuestionApi = function () {
@@ -215,7 +214,7 @@ app.controller('ctrl', ['$scope','$http','apiService', function($scope,$http,api
 
 }]);
 
-	
+
 
 
 
@@ -223,12 +222,12 @@ app.factory('apiService',['$rootScope','$http',
 
 	function($rootScope, $http) {
 
-	// job button -> what degree do you have(user is supposed to choose one degree) 
+	// job button -> what degree do you have(user is supposed to choose one degree)
 	var makeACallForDegreeTitles = function(callback) {
 		$http({
 			method : "GET",
 			url : "http://127.0.0.1:5000/api/degreetitles"
-		
+
 		}).then(function mySucces(response) {
 	        // console.log("Success: " );
 	        // console.log(JSON.stringify(response,undefined, 2));
@@ -244,7 +243,7 @@ app.factory('apiService',['$rootScope','$http',
 		$http({
 			method : "GET",
 			url : "http://127.0.0.1:5000/api/skills"
-		
+
 		}).then(function mySucces(response) {
 	        // console.log("Success: " );
 	        // console.log(JSON.stringify(response,undefined, 2));
@@ -259,7 +258,7 @@ app.factory('apiService',['$rootScope','$http',
 		$http({
 			method : "GET",
 			url : "http://127.0.0.1:5000/api/question?skill=csharp"
-		
+
 		}).then(function mySucces(response) {
 	        // console.log("Success: " );
 	        // console.log(JSON.stringify(response,undefined, 2));
@@ -282,7 +281,4 @@ app.factory('apiService',['$rootScope','$http',
 
 
 
-}]);   
-
-
-
+}]);

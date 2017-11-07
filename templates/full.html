@@ -4,22 +4,65 @@
 	<title>Job and Degree Website</title>
 	<meta name="viewport" content="width=device-width" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
-	<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 	<!-- <link rel="stylesheet" media="mediatype and|not|only (media feature)" href="mystylesheet.css"> -->
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.min.js"></script>
-	<script rel="stylesheet" type="text/javascript" src="ui-bootstrap-2.4.0.js"></script>
-	<script rel="stylesheet" type="text/javascript" src="ui-bootstrap-tpls-2.4.0.js"></script>
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.min.js"></script>-->
+	<script rel="stylesheet" type="text/javascript" src="/static/js/ui-bootstrap-2.4.0.js"></script>
+	<script rel="stylesheet" type="text/javascript" src="/static/js/ui-bootstrap-tpls-2.4.0.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 
-	<script type="text/javascript" src="job_and_degree.js"></script>
+	<!--<script type="text/javascript" src="/static/js/job_and_degree.js"></script>-->
+
+	<script>
+	//works
+	$.get("/api/degreetitles", function( data ) {
+		var degreeButtons = "";
+		for( var i in data['degreetitles'] ) {
+			degreeButtons += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data['degreetitles'][i] + "</button>";
+		}
+		$("#degreeTitleSection").html(degreeButtons);
+	})
+
+	//doesnt work
+	$.get("/api/jobtitles", function( data ) {
+		var jobButtons = "";
+		for( var i in data['jobtitles'] ) {
+			jobButtons += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data['jobtitles'][i] + "</button>";
+		}
+		$("#jobTitleSection").html(jobButtons);
+
+	});
+
+	$.get("/api/skills", function( data ) {
+		var skillButtons = "";
+		for( var i in data['skills'] ) {
+			skillButtons += "<button type=\"button\" class=\"btnforchoose btn-secondary btn-lg active\">" + data['skills'][i] + "</button>";
+		}
+		$("#skillSection_a").html(skillButtons);
+		$("#skillSection_b").html(skillButtons);
+	});
+
+	$.get("/api/question?skill=csharp", function( data ) {
+		var questionDescription ="<p style=\"padding-bottom: 20px\">" + data['question'] + "</p>"
+		var questionAnswers = "";
+		for( var i in data['options'] ) {
+			questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data['options'][i] + "</button>"
+		}
+		$("#questionSection_a").html(questionDescription);
+		$("#answerSection_a").html(questionAnswers);
+
+		$("#questionSection_b").html(questionDescription);
+		$("#answerSection_b").html(questionAnswers);
+	});
+	</script>
 
 	<head>
 
@@ -47,7 +90,7 @@
 				</div>
 				<div class="row" style="height:5%;font-weight:300;">
 					<div class="col-sm-6" ng-click="steptwo()" style="height: 100%;text-align:right;padding-right:100px;">
-						<button type="button" class="homebtn" style="font-size: 15px;font-weight:lighter;border:1px solid black;" ng-click="callDegreeTitlesApi()">Job</button>
+						<a href="#q1"><button type="button" class="homebtn" style="font-size: 15px;font-weight:lighter;border:1px solid black;" ng-click="callDegreeTitlesApi()">Job</button></a>
 					</div>
 					<div class="col-sm-6" ng-click="stepsix()" style="height: 100%;text-align:left;padding-left:100px;">
 						<button type="button" class="homebtn" style="font-size: 15px;font-weight:lighter;border:1px solid black;">Degree</button>
@@ -60,13 +103,13 @@
 
 			<!-- this is page 2 -->
 
-			<div class="container" ng-switch-when="two" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+			<div id="q1" class="container" ng-switch-when="two" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
 				<div class="row" style="height:5%"></div>
 				<div class="row" style="height:12%">
 
 					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
-						<button type="button" ng-click="setalltofalse()" class="roundbutton">
-							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span>
+						<a href="/#homepage"><button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span></a>
 						</button>
 
 					</div>
@@ -91,15 +134,14 @@
 
 				<div class="row" style="height:10%">
 					<div class="col-sm-3" style="height: 100%;"></div>
-					<div class="col-sm-9" style="height: 100%;text-align:left;font-size: 20px;">I have a master in</div>
+					<div class="col-sm-9" style="height: 100%;text-align:left;font-size: 20px;">I have a masters in</div>
 				</div>
 
 				<div class="row" style="height:40%">
 					<div class="col-sm-3" style="height: 100%;"></div>
 					<div class="col-sm-6" style="height: 100%;">
-						<div>
-							<button type="button" ng-repeat="degreetitle in degreetitles" ng-click="degreeChoice(degreetitle.id);degreetitle.selected = !degreetitle.selected" ng-class="{btn: degreetitle.selected == false, btnselected: degreetitle.selected == true}" class="btn btn-secondary btn-lg btn-block active">{{degreetitle.degreetitle}}</button>
 
+						<div id="degreeTitleSection">
 						</div>
 
 					</div>
@@ -109,17 +151,17 @@
 
 				<div class="row" style="height:10%">
 					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: right;">
-						<button type="button" class="roundbutton"><</button>
+						<a href="/#homepage"><button type="button" class="roundbutton"><</button></a>
 					</div>
 					<div class="col-sm-6" style="height: 100%;" ></div>
 					<div class="col-sm-3" style="height: 100%;">
 						<div ng-click="stepthree()">
 							<div style="text-align: left">
-								<!-- <a href="#" style="text-align: left;padding-right: 30px" class = "skip">Skip</a> -->
-								<button type="button" class="roundbutton" style="text-align: center;" ng-click="callSkillApi(degreeChoiceForParse);">
-									<!-- <i class="material-icons large" style="color:white;">chevron_left</i> -->
+
+								<a href="/#q2"><button type="button" class="roundbutton" style="text-align: center;">
+
 									>
-								</button>
+								</button></a>
 
 							</div>
 						</div>
@@ -129,13 +171,13 @@
 			</div>
 			<!-- this is page 3 -->
 
-			<div class="container" ng-switch-when="three" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+			<div id="q2" class="container" ng-switch-when="three" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
 				<div class="row" style="height:5%"></div>
 				<div class="row" style="height:12%">
 
 					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
-						<button type="button" ng-click="setalltofalse()" class="roundbutton">
-							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span>
+						<a href="/#homepage"><button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span></a>
 						</button>
 
 					</div>
@@ -164,8 +206,8 @@
 				<div class="row" style="height:40%">
 					<div class="col-sm-3" style="height: 100%;"></div>
 					<div class="col-sm-6" style="height: 100%;">
-						<div>
-							<button type="button" ng-repeat="item in skills" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">{{item.key}}</button>
+						<div id="skillSection_b">
+							<!--<button type="button" ng-repeat="item in skills" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">{item.key}</button>-->
 
 						</div>
 					</div>
@@ -174,24 +216,24 @@
 
 				<div class="row" style="height:10%">
 					<div ng-click="steptwo()" class="col-sm-3" style="height: 100%;text-align: right;">
-						<button type="button" class="roundbutton"><</button>
+						<a href="/#q1"><button type="button" class="roundbutton"><</button></a>
 					</div>
 					<div class="col-sm-6" style="height: 100%;" ></div>
 					<div ng-click="stepfour()" class="col-sm-3" style="height: 100%;text-align: left;">
 						<!-- <a href="#" class = "skip" style="text-align: left;padding-right: 30px">Skip</a> -->
-						<button type="button" class="roundbutton" style="text-align: center;" ng-click="callQuestionApi()">></button>
+						<a href="/#q4"><button type="button" class="roundbutton" style="text-align: center;">></button></a>
 					</div>
 				</div>
 			</div>
 
 			<!-- this is page 4 -->
-			<div class="container" ng-switch-when="four" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+			<div id="q4" class="container" ng-switch-when="four" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
 				<div class="row" style="height:5%"></div>
 				<div class="row" style="height:12%">
 
 					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
-						<button type="button" ng-click="setalltofalse()" class="roundbutton">
-							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span>
+						<a href="/#homepage"><button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span></a>
 						</button>
 
 					</div>
@@ -221,24 +263,13 @@
 					<div class="col-sm-3" style="height: 100%;"></div>
 					<div class="col-sm-6" style="height: 100%;text-align: left;font-size: 20px;">
 						<div style="font-weight: lighter;text-align: left">
-							<div>
-								<p style="padding-bottom: 20px">
-									{{questions.question}}
-								</p>
+							<div id="questionSection_a">
+
 							</div>
 							<div>
-								<div style="padding-bottom: 6px" ng-repeat="option in questions.options">
-									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{option}}</button>
+								<div id="answerSection_a" style="padding-bottom: 6px" ng-repeat="option in questions.options">
+
 								</div>
-								<!-- <div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{item.answerb}}</button>
-								</div>
-								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{item.answerc}}</button>
-								</div>
-								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{item.answerd}}</button>
-								</div> -->
 							</div>
 
 						</div>
@@ -248,12 +279,12 @@
 
 				<div class="row" style="height:10%">
 					<div ng-click="steptwo()" class="col-sm-3" style="height: 100%;text-align: right;">
-						<button type="button" class="roundbutton"><</button>
+						<a href="/#q2"><button type="button" class="roundbutton"><</button></a>
 					</div>
 					<div class="col-sm-6" style="height: 100%;" ></div>
 					<div ng-click="stepfive()" class="col-sm-3" style="height: 100%;text-align: left;">
 						<!-- <a href="#" class = "skip">Skip</a> -->
-						<button type="button" class="roundbutton">></button>
+						<a href="/#results"><button type="button" class="roundbutton">></button></a>
 					</div>
 				</div>
 			</div>
@@ -261,12 +292,12 @@
 
 			<!-- this is page 5 -->
 
-			<div class="container" ng-switch-when="five" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+			<div id="results" class="container" ng-switch-when="five" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
 				<div class="row" style="height:5%"></div>
 				<div class="row" style="height:10%">
 					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
-						<button type="button" ng-click="setalltofalse()" class="roundbutton">
-							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span>
+						<a href="/#homepage"><button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span></a>
 						</button>
 
 					</div>
@@ -324,7 +355,7 @@
 								C++ developer
 							</p>
 							<div style="font-size:15px;font-weight: lighter;">
-								<p>Your primary responsibility will be to design and develop these applications, and to coordinate with the rest of the team working on different layers of the infrastructure.</p>	
+								<p>Your primary responsibility will be to design and develop these applications, and to coordinate with the rest of the team working on different layers of the infrastructure.</p>
 							</div>
 						</div>
 					</div>
@@ -347,7 +378,7 @@
 
 
 					<div class="col-sm-3" style="height: 100%;text-align: right;" >
-						<button class="btn" ng-click="stepone();setalltofalse()" style="text-align:center;">Start Over</button>
+						<a href="/#homepage"><button class="btn" ng-click="stepone();setalltofalse()" style="text-align:center;">Start Over</button></a>
 					</div>
 					<div class="col-sm-3" style="height: 100%;"></div>
 
@@ -369,8 +400,8 @@
 				<div class="row" style="height:12%">
 
 					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
-						<button type="button" ng-click="setalltofalse()" class="roundbutton">
-							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span>
+						<a href="/#homepage"><button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span></a>
 						</button>
 
 					</div>
@@ -397,8 +428,8 @@
 					<div class="col-sm-3" style="height: 100%;"></div>
 					<div class="col-sm-6" style="height: 100%;">
 
-						<div>
-							<button type="button" ng-repeat="item in joblist" ng-click="ischosen(item)" ng-class="{btn: item.selected == false, btnselected: item.selected == true}" class="btn btn-secondary btn-lg btn-block active">{{item.job}}</button>
+						<div id="jobTitleSection">
+							<p> farts </p>
 
 						</div>
 
@@ -462,8 +493,8 @@
 				<div class="row" style="height:40%">
 					<div class="col-sm-3" style="height: 100%;"></div>
 					<div class="col-sm-6" style="height: 100%;">
-						<div>
-							<button type="button" ng-repeat="item in skillset" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">{{item.skill}}</button>
+						<div id="skillSection_a">
+
 						</div>
 
 
@@ -522,24 +553,20 @@
 					<div class="col-sm-6" style="height: 100%;text-align: left;font-size: 20px;">
 
 						<div ng-repeat="item in samplequestion" style="font-weight: lighter;text-align: left">
-							<div>
-								<p style="padding-bottom: 20px">
-									{{item.description}}
-								</p>
+							<div id="questionSection_b">
+
 							</div>
-							<div>
-								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answera}}</button>
+							<div id="answerSection_b">
+
+								<!--<div style="padding-bottom: 6px">
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">{item.answerb}</button>
 								</div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answerb}}</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">{item.answerc}</button>
 								</div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answerc}}</button>
-								</div>
-								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answerd}}</button>
-								</div>
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">{item.answerd}</button>
+								</div>-->
 							</div>
 
 						</div>
@@ -625,7 +652,7 @@
 								<p>Exposes students to the complete life-cycle of computer application development including abstraction, modeling and algorithm development, leveraging computer systems ... </p>
 								<a href="https://www.cdm.depaul.edu/academics/Pages/current/Requirements-MS-in-Computer-Science.aspx">see more</a>
 							</div>
-						</div>	
+						</div>
 					</div>
 
 					<div class="col-sm-3" style="height: 100%;"></div>

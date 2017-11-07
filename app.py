@@ -22,35 +22,21 @@ def dbJSON(obj):
     """
         hard code the first page with degree titles for now.
     """
-
-degreetitles = [
-    {
-        'id': 1,
-        'degreetitle': u'Computer Science',
-    },
-    {
-        'id': 2,
-        'degreetitle': u'Information System',
-    },
-    {
-        'id': 3,
-        'degreetitle': u'Design',
-    },
-    {
-        'id': 4,
-        'degreetitle': u'Other',
-    }
-]
-
 @app.route('/api/degreetitles',methods=['GET'])
 def getDegreeTitles():
     degrees = Degree.query.all()
-    return jsonify({'degreetitles': degreetitles})
+    resp = {'degreetitles': []}
+    for d in degrees:
+        resp['degreetitles'].append(d.title)
+    return jsonify(resp)
 
 @app.route('/api/jobtitles', methods=['GET'])
 def getJobTitles():
     jobs = Job.query.all()
-    return jsonfiy()
+    resp = {'jobtitles': []}
+    for j in jobs:
+        resp['jobtitles'].append(j.title)
+    return jsonify(resp)
 
 @app.route('/api/skills', methods=['GET'])
 def retrieveSkills():
@@ -63,7 +49,11 @@ def retrieveSkills():
     target = request.args.get('target')
     title = request.args.get('title')
     if target == None and title == None:
-        return dbJSON(Keyword.query.all())
+        resp['skills'] = []
+        all_skills = Keyword.query.all()
+        for s in all_skills:
+            resp['skills'].append(s.key)
+        return jsonify(resp)
     if target == 'job' and title != None:
         job_object = Job.query.filter_by(title=title).first()
         if job_object:
@@ -111,7 +101,8 @@ def retrieveQuestion():
     data['question'] = question_obj.question
     data['options'] = options
     data['answer'] = answer
-    return jsonify({'status':200, 'data': data})
+    return jsonify(data)
+    #return jsonify({'status':200, 'data': data})
 
 @app.route('/', methods=['GET'])
 def index():
