@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<<<<<<< HEAD:templates/full.html
-
-=======
-	
->>>>>>> 368e690de83e6cfa899882f76596f5740985219c:index.html
 	<title>Job and Degree Website</title>
 	<meta name="viewport" content="width=device-width" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="static/css/style.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
@@ -17,16 +12,17 @@
 	<!-- <link rel="stylesheet" media="mediatype and|not|only (media feature)" href="mystylesheet.css"> -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.min.js"></script>
-	<script rel="stylesheet" type="text/javascript" src="static/js/ui-bootstrap-2.4.0.js"></script>
-	<script rel="stylesheet" type="text/javascript" src="static/js/ui-bootstrap-tpls-2.4.0.js"></script>
+	<script rel="stylesheet" type="text/javascript" src="ui-bootstrap-2.4.0.js"></script>
+	<script rel="stylesheet" type="text/javascript" src="ui-bootstrap-tpls-2.4.0.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 
-	<script type="text/javascript" src="static/js/job_and_degree.js"></script>
+	<script type="text/javascript" src="job_and_degree.js"></script>
 
-</head>
+	<head>
+
 
 		<body ng-app = "app" ng-controller="ctrl" ng-switch="step" class="container-fluid" style="margin: 0;padding: 0;height: 100vh;font-family: 'Myriad Pro', sans-serif;">
 			<!-- this is page 1 -->
@@ -51,7 +47,7 @@
 				</div>
 				<div class="row" style="height:5%;font-weight:300;">
 					<div class="col-sm-6" ng-click="steptwo()" style="height: 100%;text-align:right;padding-right:100px;">
-						<button type="button" class="homebtn" style="font-size: 15px;font-weight:lighter;border:1px solid black;">Job</button>
+						<button type="button" class="homebtn" style="font-size: 15px;font-weight:lighter;border:1px solid black;" ng-click="callDegreeTitlesApi()">Job</button>
 					</div>
 					<div class="col-sm-6" ng-click="stepsix()" style="height: 100%;text-align:left;padding-left:100px;">
 						<button type="button" class="homebtn" style="font-size: 15px;font-weight:lighter;border:1px solid black;">Degree</button>
@@ -102,7 +98,7 @@
 					<div class="col-sm-3" style="height: 100%;"></div>
 					<div class="col-sm-6" style="height: 100%;">
 						<div>
-							<button type="button" ng-repeat="item in degreelist" ng-click="ischosen(item)" ng-class="{btn: item.selected == false, btnselected: item.selected == true}" class="btn btn-secondary btn-lg btn-block active">A Degree</button>
+							<button type="button" ng-repeat="degreetitle in degreetitles" ng-click="degreeChoice(degreetitle.id);degreetitle.selected = !degreetitle.selected" ng-class="{btn: degreetitle.selected == false, btnselected: degreetitle.selected == true}" class="btn btn-secondary btn-lg btn-block active">{{degreetitle.degreetitle}}</button>
 
 						</div>
 
@@ -120,7 +116,7 @@
 						<div ng-click="stepthree()">
 							<div style="text-align: left">
 								<!-- <a href="#" style="text-align: left;padding-right: 30px" class = "skip">Skip</a> -->
-								<button type="button" class="roundbutton" style="text-align: center;">
+								<button type="button" class="roundbutton" style="text-align: center;" ng-click="callSkillApi(degreeChoiceForParse);">
 									<!-- <i class="material-icons large" style="color:white;">chevron_left</i> -->
 									>
 								</button>
@@ -169,7 +165,7 @@
 					<div class="col-sm-3" style="height: 100%;"></div>
 					<div class="col-sm-6" style="height: 100%;">
 						<div>
-							<button type="button" ng-repeat="item in skillset" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">A Skill</button>
+							<button type="button" ng-repeat="item in skills" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">{{item.key}}</button>
 
 						</div>
 					</div>
@@ -183,7 +179,7 @@
 					<div class="col-sm-6" style="height: 100%;" ></div>
 					<div ng-click="stepfour()" class="col-sm-3" style="height: 100%;text-align: left;">
 						<!-- <a href="#" class = "skip" style="text-align: left;padding-right: 30px">Skip</a> -->
-						<button type="button" class="roundbutton" style="text-align: center;">></button>
+						<button type="button" class="roundbutton" style="text-align: center;" ng-click="callQuestionApi()">></button>
 					</div>
 				</div>
 			</div>
@@ -224,25 +220,25 @@
 				<div class="row" style="height:45%">
 					<div class="col-sm-3" style="height: 100%;"></div>
 					<div class="col-sm-6" style="height: 100%;text-align: left;font-size: 20px;">
-						<div ng-repeat="item in samplequestion" style="font-weight: lighter;text-align: left">
+						<div style="font-weight: lighter;text-align: left">
 							<div>
 								<p style="padding-bottom: 20px">
-									A Description
+									{{questions.question}}
 								</p>
 							</div>
 							<div>
-								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block active">Answer A</button>
+								<div style="padding-bottom: 6px" ng-repeat="option in questions.options">
+									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{option}}</button>
+								</div>
+								<!-- <div style="padding-bottom: 6px">
+									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{item.answerb}}</button>
 								</div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block active">Answer B</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{item.answerc}}</button>
 								</div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block active">Answer C</button>
-								</div>
-								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block active">Answer D</button>
-								</div>
+									<button type="button" class="btn btn-secondary btn-lg btn-block active">{{item.answerd}}</button>
+								</div> -->
 							</div>
 
 						</div>
@@ -290,7 +286,9 @@
 				<!-- first result -->
 
 				<div class="row" style="height:25%">
-					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-3" style="height: 100%;">
+
+					</div>
 					<div class="col-sm-1">
 						<p class="percentage">90%</p>
 					</div>
@@ -312,7 +310,9 @@
 				<!-- second result -->
 
 				<div class="row" style="height:25%">
-					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-3" style="height: 100%;">
+						<img src="polarbear.gif" style="height: 120%;width: auto;">
+					</div>
 					<div class="col-sm-1">
 						<p class="percentage">70%</p>
 					</div>
@@ -324,11 +324,12 @@
 								C++ developer
 							</p>
 							<div style="font-size:15px;font-weight: lighter;">
-								<p>Your primary responsibility will be to design and develop these applications, and to coordinate with the rest of the team working on different layers of the infrastructure.</p>
+								<p>Your primary responsibility will be to design and develop these applications, and to coordinate with the rest of the team working on different layers of the infrastructure.</p>	
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-3" style="height: 100%;">
+					</div>
 				</div>
 
 
@@ -397,7 +398,7 @@
 					<div class="col-sm-6" style="height: 100%;">
 
 						<div>
-							<button type="button" ng-repeat="item in joblist" ng-click="ischosen(item)" ng-class="{btn: item.selected == false, btnselected: item.selected == true}" class="btn btn-secondary btn-lg btn-block active">A Job</button>
+							<button type="button" ng-repeat="item in joblist" ng-click="ischosen(item)" ng-class="{btn: item.selected == false, btnselected: item.selected == true}" class="btn btn-secondary btn-lg btn-block active">{{item.job}}</button>
 
 						</div>
 
@@ -462,7 +463,7 @@
 					<div class="col-sm-3" style="height: 100%;"></div>
 					<div class="col-sm-6" style="height: 100%;">
 						<div>
-							<button type="button" ng-repeat="item in skillset" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">A Skill</button>
+							<button type="button" ng-repeat="item in skillset" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">{{item.skill}}</button>
 						</div>
 
 
@@ -523,21 +524,21 @@
 						<div ng-repeat="item in samplequestion" style="font-weight: lighter;text-align: left">
 							<div>
 								<p style="padding-bottom: 20px">
-									A Description
+									{{item.description}}
 								</p>
 							</div>
 							<div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block ">Answer A</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answera}}</button>
 								</div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block ">Answer B</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answerb}}</button>
 								</div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block ">Answer C</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answerc}}</button>
 								</div>
 								<div style="padding-bottom: 6px">
-									<button type="button" class="btn btn-secondary btn-lg btn-block ">Answer D</button>
+									<button type="button" class="btn btn-secondary btn-lg btn-block ">{{item.answerd}}</button>
 								</div>
 							</div>
 
@@ -624,7 +625,7 @@
 								<p>Exposes students to the complete life-cycle of computer application development including abstraction, modeling and algorithm development, leveraging computer systems ... </p>
 								<a href="https://www.cdm.depaul.edu/academics/Pages/current/Requirements-MS-in-Computer-Science.aspx">see more</a>
 							</div>
-						</div>
+						</div>	
 					</div>
 
 					<div class="col-sm-3" style="height: 100%;"></div>
