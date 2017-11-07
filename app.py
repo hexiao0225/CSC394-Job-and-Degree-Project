@@ -59,6 +59,7 @@ def retrieveSkills():
         i.e /api/skills?target=job&title=software%20developer
     Returns all keywords if no target and title is present
     """
+    resp = {}
     target = request.args.get('target')
     title = request.args.get('title')
     if target == None and title == None:
@@ -66,12 +67,22 @@ def retrieveSkills():
     if target == 'job' and title != None:
         job_object = Job.query.filter_by(title=title).first()
         if job_object:
-            return dbJSON(JobKeywords.query.filter_by(jobID = job_object.id))
+            resp[job_object.title] = []
+            keys = JobKeywords.query.filter_by(jobID = job_object.id)
+            for k in keys:
+                tmp_key_obj = Keyword.query.get(k.keywordID)
+                resp[job_object.title].append(tmp_key_obj.key)
+            return jsonify(resp)
         return jsonify("Bad Request - title not found %s" % title)
     if target == 'degree' and title != None:
         degree_object = Degree.query.filter_by(title=title).first()
         if degree_object:
-            return dbJSON(DegreeKeywords.query.filter_by(degreeID = degree_object.id))
+            resp[degree_object.title] = []
+            keys = DegreeKeywords.query.filter_by(degreeID = degree_object.id)
+            for k in keys:
+                tmp_key_obj = Keyword.query.get(k.keywordID)
+                resp[degree_object.title].append(tmp_key_obj.key)
+            return jsonify(resp)
         return jsonify("Bad Request - title not found")
     return jsonify("Bad Request")
 
