@@ -1,7 +1,7 @@
 # Kalia
 ### Masters Degree and Job Recommendation System :+1:
 
-#####DEV SETUP
+##### DEV SETUP
   1. Pull the repo
   2. Install virtualenv https://virtualenv.pypa.io/en/stable/userguide/
   3. Run the following
