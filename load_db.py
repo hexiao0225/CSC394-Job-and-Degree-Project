@@ -223,10 +223,10 @@ a_10 = KeywordAnswer(questionID=q_c.id, answer="c = a + int( float( b ) )")
 a_11 = KeywordAnswer(questionID=q_c.id, answer="c = a + b")
 a_12 = KeywordAnswer(questionID=q_c.id, answer="c = int( a + b )")
 
-a_13 = KeywordAnswer(questionID=q_d.id, answer="class", correct=True)
-a_14 = KeywordAnswer(questionID=q_d.id, answer="id") 
+a_13 = KeywordAnswer(questionID=q_d.id, answer="id", correct=True)
+a_14 = KeywordAnswer(questionID=q_d.id, answer="class") 
 a_15 = KeywordAnswer(questionID=q_d.id, answer="tag")
-a_16 = KeywordAnswer(questionID=q_d.id, answer="class and tag") 
+a_16 = KeywordAnswer(questionID=q_d.id, answer="both class and tag") 
 
 
 db.session.add(a_1)
