@@ -223,6 +223,12 @@ a_10 = KeywordAnswer(questionID=q_c.id, answer="c = a + int( float( b ) )")
 a_11 = KeywordAnswer(questionID=q_c.id, answer="c = a + b")
 a_12 = KeywordAnswer(questionID=q_c.id, answer="c = int( a + b )")
 
+a_13 = KeywordAnswer(questionID=q_d.id, answer="class", correct=True)
+a_14 = KeywordAnswer(questionID=q_d.id, answer="id") 
+a_15 = KeywordAnswer(questionID=q_d.id, answer="tag")
+a_16 = KeywordAnswer(questionID=q_d.id, answer="class and tag") 
+
+
 db.session.add(a_1)
 db.session.add(a_2)
 db.session.add(a_3)
@@ -235,6 +241,10 @@ db.session.add(a_9)
 db.session.add(a_10)
 db.session.add(a_11)
 db.session.add(a_12)
+db.session.add(a_13)
+db.session.add(a_14)
+db.session.add(a_15)
+db.session.add(a_16)
 
 db.session.commit()
 
