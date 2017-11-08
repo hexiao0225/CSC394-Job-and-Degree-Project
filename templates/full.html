@@ -9,9 +9,6 @@
 
 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-	<!-- <link rel="stylesheet" media="mediatype and|not|only (media feature)" href="mystylesheet.css"> -->
-	<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.min.js"></script>-->
 	<script rel="stylesheet" type="text/javascript" src="/static/js/ui-bootstrap-2.4.0.js"></script>
 	<script rel="stylesheet" type="text/javascript" src="/static/js/ui-bootstrap-tpls-2.4.0.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -19,10 +16,9 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 
-	<!--<script type="text/javascript" src="/static/js/job_and_degree.js"></script>-->
 
 	<script>
-	//works
+
 	$.get("/api/degreetitles", function( data ) {
 		var degreeButtons = "";
 		for( var i in data['degreetitles'] ) {
@@ -31,7 +27,7 @@
 		$("#degreeTitleSection").html(degreeButtons);
 	})
 
-	//doesnt work
+
 	$.get("/api/jobtitles", function( data ) {
 		var jobButtons = "";
 		for( var i in data['jobtitles'] ) {
@@ -342,7 +338,7 @@
 
 				<div class="row" style="height:25%">
 					<div class="col-sm-3" style="height: 100%;">
-						<img src="polarbear.gif" style="height: 120%;width: auto;">
+						<img src="/static/img/polarbear.gif" style="height: 120%;width: auto;">
 					</div>
 					<div class="col-sm-1">
 						<p class="percentage">70%</p>
@@ -369,9 +365,9 @@
 					<div class="col-sm-4" style="height: 100%;"></div>
 					<div class="col-sm-2" style="height: 100%;text-align: right;">
 						<div class="input-group" style="width: 250px;">
-							<input type="text" class="form-control" placeholder="example@gmail.com">
+							<input id="phone-input" type="text" class="form-control" placeholder="xxx xxx-xxxx">
 							<span class="input-group-btn">
-								<button class="btn btn-secondary" type="button" style="width: 60px;text-align:center;">Send</button>
+								<button class="btn btn-secondary" type="button" style="width: 140px;text-align:center;padding: 2px;">Text Me My Results!</button>
 							</span>
 						</div>
 					</div>
@@ -395,7 +391,7 @@
 
 			<!-- this is page 6(degree) -->
 
-			<div class="container" ng-switch-when="six" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+			<div id="degreeContent" class="container" ng-switch-when="six" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
 				<div class="row" style="height:5%"></div>
 				<div class="row" style="height:12%">
 
@@ -429,7 +425,6 @@
 					<div class="col-sm-6" style="height: 100%;">
 
 						<div id="jobTitleSection">
-							<p> farts </p>
 
 						</div>
 
