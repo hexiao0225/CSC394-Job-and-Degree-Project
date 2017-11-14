@@ -18,19 +18,19 @@ def getTitles():
     """
     Return JSON list of titles for Jobs or Degrees based on target parameter in URL
 
-    Job titles
-    /api/titles?target=job
-
     Degree titles
     /api/titles?target=degree
+
+    Job titles
+    /api/titles?target=job
     """
     resp = []
     target = request.args.get('target') # 'job' or 'degree'
-    if target == 'job':
+    if target == 'degree':
         degrees = Degree.query.all()
         for d in degrees:
             resp.append(d.title)
-    elif target == 'degree':
+    elif target == 'job':
         jobs = Job.query.all()
         for j in jobs:
             resp.append(j.title)
@@ -47,12 +47,6 @@ def getSkills():
     resp = []
     target = request.args.get('target')
     title = request.args.get('title')
-    if target == None and title == None: #if no input given in parameters
-        resp['skills'] = []
-        all_skills = Keyword.query.all()
-        for s in all_skills:
-            resp.append(s.key)
-        return jsonify(resp)
     if target == 'job' and title != None:
         job_object = Job.query.filter_by(title=title).first()
         if job_object:
