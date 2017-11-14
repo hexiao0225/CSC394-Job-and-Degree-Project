@@ -102,6 +102,14 @@ def getQuestionsNEW():
         ]
     )
 
+def getRandomQuestion(skill):
+    keyword_obj = Keyword.query.filter_by(key=skill).first()
+    question_obj = KeywordQuestion.query.filter_by(keywordID = keyword_obj.id)
+    item_count = len(list(question_obj))
+    q_num = random.randint(0, item_count-1)
+    question_obj = question_obj[q_num]
+    response_obj = KeywordAnswer.query.filter_by(questionID=question_obj.id)
+
 @app.route('/api/question', methods=['GET'])
 def retrieveQuestion():
     """
