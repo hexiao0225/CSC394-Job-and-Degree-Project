@@ -19,19 +19,20 @@
 
 	<script>
 
-	$.get("/api/degreetitles", function( data ) {
+	$.get("/api/titles?target=degree", function( data ) {
 		var degreeButtons = "";
-		for( var i in data['degreetitles'] ) {
-			degreeButtons += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data['degreetitles'][i] + "</button>";
+		for( var i in data ) {
+			degreeButtons += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data[i] + "</button>";
 		}
 		$("#degreeTitleSection").html(degreeButtons);
+
 	})
 
 
-	$.get("/api/jobtitles", function( data ) {
+	$.get("/api/titles?target=job", function( data ) {
 		var jobButtons = "";
-		for( var i in data['jobtitles'] ) {
-			jobButtons += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data['jobtitles'][i] + "</button>";
+		for( var i in data ) {
+			jobButtons += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data[i] + "</button>";
 		}
 		$("#jobTitleSection").html(jobButtons);
 
@@ -39,11 +40,12 @@
 
 	$.get("/api/skills", function( data ) {
 		var skillButtons = "";
-		for( var i in data['skills'] ) {
-			skillButtons += "<button type=\"button\" class=\"btnforchoose btn-secondary btn-lg active\">" + data['skills'][i] + "</button>";
+		for( var i in data ) {
+			skillButtons += "<button type=\"button\" class=\"btnforchoose btn-secondary btn-lg active\">" + data[i] + "</button>";
 		}
 		$("#skillSection_a").html(skillButtons);
 		$("#skillSection_b").html(skillButtons);
+		alert(skillButtons);
 	});
 
 	$.get("/api/question?skill=csharp", function( data ) {

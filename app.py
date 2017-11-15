@@ -47,6 +47,11 @@ def getSkills():
     resp = []
     target = request.args.get('target')
     title = request.args.get('title')
+    if target == None and title == None:
+        skills = Keyword.query.all()
+        for s in skills:
+            resp.append(s.key)
+        return jsonify(resp)
     if target == 'job' and title != None:
         job_object = Job.query.filter_by(title=title).first()
         if job_object:
