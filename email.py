@@ -11,7 +11,7 @@ from config import app
 def sendMailText(receiver, content, images=None):
     msg = MIMEMultipart('related')
     msg['Subject'] = Header("Final Result", "utf-8")
-    msg['From'] = "username"
+    msg['From'] = app.config['EMAIL']
     msg['To'] = receiver
 
     msgAlternative = MIMEMultipart('alternative')
