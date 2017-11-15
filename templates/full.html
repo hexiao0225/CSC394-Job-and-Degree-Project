@@ -19,13 +19,27 @@
 
 	<script>
 
+
+	var user_skills = [];
+
+	function toggleSkill (newSkill) {
+		for (var i = 0; i < user_skills.length; i++){
+			if (user_skills[i] == newSkill){
+				user_skills.splice(i, 1);
+				return;
+			}
+		}
+		user_skills.push(newSkill);
+		console.log(user_skills);
+	}
+
 	$.get("/api/titles?target=degree", function( data ) {
 		var degreeButtons = "";
 		for( var i in data ) {
 			degreeButtons += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data[i] + "</button>";
 		}
 		$("#degreeTitleSection").html(degreeButtons);
-
+		alert(degreeButtons);
 	})
 
 
@@ -41,7 +55,7 @@
 	$.get("/api/skills", function( data ) {
 		var skillButtons = "";
 		for( var i in data ) {
-			skillButtons += "<button type=\"button\" class=\"btnforchoose btn-secondary btn-lg active\">" + data[i] + "</button>";
+			skillButtons += "<button type=\"button\" onClick=\"toggleSkill(\'" + data[i] + "\')\" class=\"btnforchoose btn-secondary btn-lg active\">" + data[i] + "</button>";
 		}
 		$("#skillSection_a").html(skillButtons);
 		$("#skillSection_b").html(skillButtons);
