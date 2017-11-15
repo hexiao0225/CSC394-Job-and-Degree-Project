@@ -25,6 +25,6 @@ def sendMailText(receiver, content, images=None):
         msgImage.add_header('Content-ID', '<0>')
         msg.attach(msgImage)
 
-    s = smtplib.SMTP( "host_server", "25")
+    s = smtplib.SMTP( "smtp.mail.com", "587")
     s.login(app.config['EMAIL'], app.config['EMAIL_PASSWORD'] )
     s.sendmail(app.config['EMAIL'], receiver, msg.as_string())
