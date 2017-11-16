@@ -42,9 +42,24 @@
 		$.post("/api/questions",
 		 		resp,
 				function ( data, response ) {
-					for(var i in data) {
-						console.log(data[i]);
-					}
+					questionAnswers = "";
+					$("#questionSection_a").html(data[0]['question'])
+					for( var i in data[0]['answers'] ) {
+							questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data[0]['answers'][i] + "</button>"
+						}
+					$("#answerSection_a").html(questionAnswers);
+
+					questionAnswers = "";
+					$("#questionSection_aa").html(data[1]['question'])
+					for( var i in data[1]['answers'] ) {
+							questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data[1]['answers'][i] + "</button>"
+						}
+					$("#answerSection_aa").html(questionAnswers);
+					// $("questionSection_b").html(data[1]['question'])
+					// for(var i in data) {
+					// 	console.log(data[i]['question']);
+					// }
+
 				});
 	}
 
@@ -313,6 +328,83 @@
 					</div>
 				</div>
 			</div>
+
+
+
+
+			<!-- this is page 4 -->
+			<div id="q4" class="container" ng-switch-when="four" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+				<div class="row" style="height:5%"></div>
+				<div class="row" style="height:12%">
+
+					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+						<a href="/#homepage"><button type="button" ng-click="setalltofalse()" class="roundbutton">
+							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span></a>
+						</button>
+
+					</div>
+
+					<div class="col-sm-6" style="height: 100%;"></div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+				</div>
+
+				<div class="row" style="height: 8%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;">
+						<div class="progress" style="height: 10px;">
+							<div class="progress-bar" role="progressbar" style="width: 95%;background:#a8c1ce;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+				</div>
+
+				<div class="row" style="height:5%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-9" style="height: 100%;text-align:left;font-size: 20px;">
+						<p>Try these questions</p>
+					</div>
+				</div>
+
+				<div class="row" style="height:45%">
+					<div class="col-sm-3" style="height: 100%;"></div>
+					<div class="col-sm-6" style="height: 100%;text-align: left;font-size: 20px;">
+						<div style="font-weight: lighter;text-align: left">
+							<div id="questionSection_aa">
+
+							</div>
+							<div>
+								<div id="answerSection_aa" style="padding-bottom: 6px" ng-repeat="option in questions.options">
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="col-sm-3" style="height: 100%;"></div>
+				</div>
+
+				<div class="row" style="height:10%">
+					<div ng-click="steptwo()" class="col-sm-3" style="height: 100%;text-align: right;">
+						<a href="/#q2"><button type="button" class="roundbutton"><</button></a>
+					</div>
+					<div class="col-sm-6" style="height: 100%;" ></div>
+					<div ng-click="stepfive()" class="col-sm-3" style="height: 100%;text-align: left;">
+						<!-- <a href="#" class = "skip">Skip</a> -->
+						<a href="/#results"><button type="button" class="roundbutton">></button></a>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 			<!-- this is page 5 -->

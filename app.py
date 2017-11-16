@@ -79,12 +79,10 @@ def getQuestions():
     GET questions
     """
     data = request.values
-    print data.values()
     skills = []
     for s in data:
         skills.append(str(data[s]))
     questions = getRandomQuestionList(skills)
-    print questions
     return jsonify(questions)
 
 
@@ -96,7 +94,6 @@ def getRandomQuestionList(skillList):
         item_count = len(list(question_obj))
         if keyword_obj == None or question_obj == None or item_count == 0:
             continue
-        print "Skill: %s\nCount: %s\n\n" % (skill, str(item_count))
         q_num = random.randint(0, item_count-1)
         question_obj = question_obj[q_num]
         response_obj = KeywordAnswer.query.filter_by(questionID=question_obj.id)
@@ -114,35 +111,9 @@ def getRandomQuestionList(skillList):
         resp.append(jsonResponse)
     return resp
 
-# @app.route('/api/question', methods=['GET'])
-# def retrieveQuestion():
-#     """
-#     Retrieves question and answer based on skill parameter
-#         i.e /api/question?skill=csharp
-#     """
-#     skill = request.args.get("skill")
-#     if skill == None:
-#         return jsonify("Bad Request")
-#     keyword_obj = Keyword.query.filter_by(key=skill).first()
-#     question_obj = KeywordQuestion.query.filter_by(keywordID = keyword_obj.id)
-#     item_count = len(list(question_obj))
-#     q_num = random.randint(0, item_count-1)
-#     question_obj = question_obj[q_num]
-#     response_obj = KeywordAnswer.query.filter_by(questionID=question_obj.id)
-#     answer = ""
-#     options = []
-#     for o in response_obj:
-#         options.append(o.answer)
-#         if o.correct == True:
-#             answer = o.answer
-#     data = {}
-#     data['question'] = question_obj.question
-#     data['options'] = options
-#     data['answer'] = answer
-#     return jsonify(data)
-
-
-
+@app.route('/api/retrieveResults', methods=['POST'])
+def getResults():
+    target = data
 
 
 #For testing only, production will need a different server
