@@ -17,7 +17,7 @@ def recomend(keywords, target="job"):
         key_ids.append(key_obj.id)
     if target == "job":
         store = getJobReferences()
-    else:
+    elif target == "degree":
         store = getDegreeReferences()
     return maxfind(store)
 

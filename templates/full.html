@@ -50,7 +50,6 @@
 		if (q2_response != q2_answer) {
 			toggleSkill(q2_skill);
 		}
-		alert(user_skills);
 	}
 
 	function setQuestionResponse_a(response) {
@@ -90,9 +89,6 @@
 					$("#answerSection_aa").html(questionAnswers);
 					q2_answer = data[1]['correctAnswer'];
 					q2_skill = data[1]['skill'];
-
-					console.log(q1_answer);
-					console.log(q2_answer);
 				});
 	}
 
