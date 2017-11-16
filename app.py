@@ -1,6 +1,6 @@
 import random
 
-from flask import Flask, current_app, render_template, request, jsonify
+from flask import Flask, current_app, render_template, request, jsonify, json
 
 from config import app
 from models import db, Keyword, Job, Degree, JobKeywords, DegreeKeywords, KeywordAnswer, KeywordQuestion
@@ -73,74 +73,73 @@ def getSkills():
     return jsonify("Bad Request")
 
 # STEP THREE
-@app.route('/api-new/questions', methods=['GET'])
-def getQuestionsNEW():
+@app.route('/api/questions', methods=['POST'])
+def getQuestions():
     """
     GET questions
     """
-    skills = request.args.get('skills') # skills here should be an array of skills
+    data = request.values
+    print data.values()
+    skills = []
+    for s in data:
+        skills.append(str(data[s]))
+    questions = getRandomQuestionList(skills)
+    print questions
+    return jsonify(questions)
 
-    # implementation
 
-    return jsonify(
-        [
-            {
-                'id': 'some id for internal identification purpose',
-                'Question':'Question 1 Text',
-                'Options': ['Option 1','Option 2','Option 3','Option 4']
-            },
-            {
-                'id': 'some id for internal identification purpose',
-                'Question':'Question 2 Text',
-                'Options': ['Option 1','Option 2','Option 3','Option 4']
-            },
-            {
-                'id': 'some id for internal identification purpose',
-                'Question':'Question 3 Text',
-                'Options': ['Option 1','Option 2','Option 3','Option 4']
-            },
-            {
-                'id': 'some id for internal identification purpose',
-                'Question':'Question 4 Text',
-                'Options': ['Option 1','Option 2','Option 3','Option 4']
-            }
-        ]
-    )
+def getRandomQuestionList(skillList):
+    resp = []
+    for skill in skillList:
+        keyword_obj = Keyword.query.filter_by(key=skill).first()
+        question_obj = KeywordQuestion.query.filter_by(keywordID = keyword_obj.id)
+        item_count = len(list(question_obj))
+        if keyword_obj == None or question_obj == None or item_count == 0:
+            continue
+        print "Skill: %s\nCount: %s\n\n" % (skill, str(item_count))
+        q_num = random.randint(0, item_count-1)
+        question_obj = question_obj[q_num]
+        response_obj = KeywordAnswer.query.filter_by(questionID=question_obj.id)
+        correctAnswer = ""
+        answers = []
+        for k in response_obj:
+            if k.correct == True:
+                correctAnswer = str(k.answer)
+            answers.append(str(k.answer))
+        jsonResponse = {}
+        jsonResponse['skill'] = str(skill)
+        jsonResponse['question'] = str(question_obj.question)
+        jsonResponse['answers'] = answers
+        jsonResponse['correctAnswer'] = correctAnswer
+        resp.append(jsonResponse)
+    return resp
 
-def getRandomQuestion(skill):
-    keyword_obj = Keyword.query.filter_by(key=skill).first()
-    question_obj = KeywordQuestion.query.filter_by(keywordID = keyword_obj.id)
-    item_count = len(list(question_obj))
-    q_num = random.randint(0, item_count-1)
-    question_obj = question_obj[q_num]
-    response_obj = KeywordAnswer.query.filter_by(questionID=question_obj.id)
-
-@app.route('/api/question', methods=['GET'])
-def retrieveQuestion():
-    """
-    Retrieves question and answer based on skill parameter
-        i.e /api/question?skill=csharp
-    """
-    skill = request.args.get("skill")
-    if skill == None:
-        return jsonify("Bad Request")
-    keyword_obj = Keyword.query.filter_by(key=skill).first()
-    question_obj = KeywordQuestion.query.filter_by(keywordID = keyword_obj.id)
-    item_count = len(list(question_obj))
-    q_num = random.randint(0, item_count-1)
-    question_obj = question_obj[q_num]
-    response_obj = KeywordAnswer.query.filter_by(questionID=question_obj.id)
-    answer = ""
-    options = []
-    for o in response_obj:
-        options.append(o.answer)
-        if o.correct == True:
-            answer = o.answer
-    data = {}
-    data['question'] = question_obj.question
-    data['options'] = options
-    data['answer'] = answer
-    return jsonify(data)
+# @app.route('/api/question', methods=['GET'])
+# def retrieveQuestion():
+#     """
+#     Retrieves question and answer based on skill parameter
+#         i.e /api/question?skill=csharp
+#     """
+#     skill = request.args.get("skill")
+#     if skill == None:
+#         return jsonify("Bad Request")
+#     keyword_obj = Keyword.query.filter_by(key=skill).first()
+#     question_obj = KeywordQuestion.query.filter_by(keywordID = keyword_obj.id)
+#     item_count = len(list(question_obj))
+#     q_num = random.randint(0, item_count-1)
+#     question_obj = question_obj[q_num]
+#     response_obj = KeywordAnswer.query.filter_by(questionID=question_obj.id)
+#     answer = ""
+#     options = []
+#     for o in response_obj:
+#         options.append(o.answer)
+#         if o.correct == True:
+#             answer = o.answer
+#     data = {}
+#     data['question'] = question_obj.question
+#     data['options'] = options
+#     data['answer'] = answer
+#     return jsonify(data)
 
 
 

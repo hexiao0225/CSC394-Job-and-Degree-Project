@@ -30,7 +30,22 @@
 			}
 		}
 		user_skills.push(newSkill);
-		console.log(user_skills);
+	}
+
+	function generateQuestions() {
+		//Returns questions in format
+		// array made of dictionaries, check the console log
+		resp = {}
+		for(var i=0; i < user_skills.length; i++) {
+			resp['q'.concat(i.toString())] = user_skills[i];
+		}
+		$.post("/api/questions",
+		 		resp,
+				function ( data, response ) {
+					for(var i in data) {
+						console.log(data[i]);
+					}
+				});
 	}
 
 	$.get("/api/titles?target=degree", function( data ) {
@@ -39,7 +54,6 @@
 			degreeButtons += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data[i] + "</button>";
 		}
 		$("#degreeTitleSection").html(degreeButtons);
-		alert(degreeButtons);
 	})
 
 
@@ -61,18 +75,18 @@
 		$("#skillSection_b").html(skillButtons);
 	});
 
-	$.get("/api/question?skill=csharp", function( data ) {
-		var questionDescription ="<p style=\"padding-bottom: 20px\">" + data['question'] + "</p>"
-		var questionAnswers = "";
-		for( var i in data['options'] ) {
-			questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data['options'][i] + "</button>"
-		}
-		$("#questionSection_a").html(questionDescription);
-		$("#answerSection_a").html(questionAnswers);
-
-		$("#questionSection_b").html(questionDescription);
-		$("#answerSection_b").html(questionAnswers);
-	});
+	// $.get("/api/question?skill=csharp", function( data ) {
+	// 	var questionDescription ="<p style=\"padding-bottom: 20px\">" + data['question'] + "</p>"
+	// 	var questionAnswers = "";
+	// 	for( var i in data['options'] ) {
+	// 		questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data['options'][i] + "</button>"
+	// 	}
+	// 	$("#questionSection_a").html(questionDescription);
+	// 	$("#answerSection_a").html(questionAnswers);
+	//
+	// 	$("#questionSection_b").html(questionDescription);
+	// 	$("#answerSection_b").html(questionAnswers);
+	// });
 	</script>
 
 	<head>
@@ -232,7 +246,7 @@
 					<div class="col-sm-6" style="height: 100%;" ></div>
 					<div ng-click="stepfour()" class="col-sm-3" style="height: 100%;text-align: left;">
 						<!-- <a href="#" class = "skip" style="text-align: left;padding-right: 30px">Skip</a> -->
-						<a href="/#q4"><button type="button" class="roundbutton" style="text-align: center;">></button></a>
+						<a href="/#q4"><button type="button" class="roundbutton" style="text-align: center;" onClick="generateQuestions()">></button></a>
 					</div>
 				</div>
 			</div>
