@@ -70,7 +70,7 @@
 		$.post("/api/results",
 				resp,
 				function ( data, response ) {
-					alert(data);
+					$("#result_1").html("<h1>" + data + "</h1>")
 	})
 }
 
@@ -451,99 +451,98 @@
 
 			<!-- this is page 5 -->
 
-			<div id="results" class="container" ng-switch-when="five" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
-				<div class="row" style="height:5%"></div>
-				<div class="row" style="height:10%">
-					<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
-						<a href="/#homepage"><button type="button" ng-click="setalltofalse()" class="roundbutton">
-							<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span></a>
-						</button>
+					<div id="results" class="container" ng-switch-when="five" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+						<div class="row" style="height:5%"></div>
+						<div class="row" style="height:10%">
+							<div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+								<a href="/#homepage"><button type="button" ng-click="setalltofalse()" class="roundbutton">
+									<span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span></a>
+								</button>
 
-					</div>
+							</div>
 
-					<div class="col-sm-6" style="height: 100%;"></div>
-					<div class="col-sm-3" style="height: 100%;"></div>
+							<div class="col-sm-6" style="height: 100%;"></div>
+							<div class="col-sm-3" style="height: 100%;"></div>
 
-				</div>
+						</div>
 
-				<div class="row" style="height:10%">
-					<div class="col-sm-3" style="height: 100%;"></div>
-					<div class="col-sm-9" style="height: 100%;text-align:left;font-size: 25px;">
-						<h3>Your best matches are</h3>
-					</div>
-				</div>
-
-				<!-- first result -->
-
-				<div class="row" style="height:25%">
-					<div class="col-sm-3" style="height: 100%;">
-
-					</div>
-					<div class="col-sm-1">
-						<p class="percentage">90%</p>
-					</div>
-
-					<div class="col-sm-5" style="height: 100%;text-align:left">
-						<div>
-							<p style="font-size:20px;font-weight: bold">
-								Java developer
-							</p>
-							<div style="font-size:15px;font-weight: lighter;">
-								<p>Java developer roles and responsibilities include managing Java/Java EE application development while providing expertise in the full software development lifecycle, from concept and design to testing.</p>
+						<div class="row" style="height:10%">
+							<div class="col-sm-3" style="height: 100%;"></div>
+							<div class="col-sm-9" style="height: 100%;text-align:left;font-size: 25px;">
+								<h3>Your best matches are</h3>
 							</div>
 						</div>
-					</div>
-					<div class="col-sm-3" style="height: 100%;"></div>
-				</div>
+
+						<!-- first result -->
+
+						<div class="row" style="height:25%">
+							<div class="col-sm-3" style="height: 100%;">
+
+							</div>
+							<!-- <div class="col-sm-1">
+								<p class="result_position">1.</p>
+							</div> -->
+
+							<div class="col-sm-5" style="height: 100%;text-align:left">
+								<div>
+									<p id = "result_1" style="font-size:20px;font-weight: bold">
+
+									</p>
+									<!-- <div style="font-size:15px;font-weight: lighter;">
+										<p>Java developer roles and responsibilities include managing Java/Java EE application development while providing expertise in the full software development lifecycle, from concept and design to testing.</p>
+									</div> -->
+								</div>
+							</div>
+							<div class="col-sm-3" style="height: 100%;"></div>
+						</div>
 
 
-				<!-- second result -->
+						<!-- second result -->
 
-				<div class="row" style="height:25%">
-					<div class="col-sm-3" style="height: 100%;">
-						<img src="/static/img/polarbear.gif" style="height: 120%;width: auto;">
-					</div>
-					<div class="col-sm-1">
-						<p class="percentage">70%</p>
-					</div>
+						<div class="row" style="height:25%">
+							<div class="col-sm-3" style="height: 100%;">
+								<img src="/static/img/polarbear.gif" style="height: 120%;width: auto;">
+							</div>
+							<!-- <div class="col-sm-1">
+								<p class="result_position">2.</p>
+							</div> -->
 
-					<div class="col-sm-5" style="height: 100%;text-align:left">
-						<div>
+							<div  class="col-sm-5" style="height: 100%;text-align:left">
+								<div>
 
-							<p style="font-size:20px;font-weight: bold">
-								C++ developer
-							</p>
-							<div style="font-size:15px;font-weight: lighter;">
-								<p>Your primary responsibility will be to design and develop these applications, and to coordinate with the rest of the team working on different layers of the infrastructure.</p>
+									<p id = "result_2" style="font-size:20px;font-weight: bold">
+
+									</p>
+									<!-- <div style="font-size:15px;font-weight: lighter;">
+										<p>Your primary responsibility will be to design and develop these applications, and to coordinate with the rest of the team working on different layers of the infrastructure.</p>
+									</div> -->
+								</div>
+							</div>
+							<div class="col-sm-3" style="height: 100%;">
 							</div>
 						</div>
-					</div>
-					<div class="col-sm-3" style="height: 100%;">
-					</div>
-				</div>
 
 
 
-				<div class="row" style="height:10%;text-align: right;">
-					<div class="col-sm-4" style="height: 100%;"></div>
-					<div class="col-sm-2" style="height: 100%;text-align: right;">
-						<div class="input-group" style="width: 250px;">
-							<input id="phone-input" type="text" class="form-control" placeholder="xxx xxx-xxxx">
-							<span class="input-group-btn">
-								<button class="btn btn-secondary" type="button" style="width: 140px;text-align:center;padding: 2px;">Text Me My Results!</button>
-							</span>
+						<div class="row" style="height:10%;text-align: right;">
+							<div class="col-sm-4" style="height: 100%;"></div>
+							<div class="col-sm-2" style="height: 100%;text-align: right;">
+								<div class="input-group" style="width: 250px;">
+									<input id="phone-input" type="text" class="form-control" placeholder="xxx xxx-xxxx">
+									<span class="input-group-btn">
+										<button class="btn btn-secondary" type="button" style="width: 140px;text-align:center;padding: 2px;">Text Me My Results!</button>
+									</span>
+								</div>
+							</div>
+
+
+							<div class="col-sm-3" style="height: 100%;text-align: right;" >
+								<a href="/#homepage"><button class="btn" ng-click="stepone();setalltofalse()" style="text-align:center;">Start Over</button></a>
+							</div>
+							<div class="col-sm-3" style="height: 100%;"></div>
+
 						</div>
 					</div>
-
-
-					<div class="col-sm-3" style="height: 100%;text-align: right;" >
-						<a href="/#homepage"><button class="btn" ng-click="stepone();setalltofalse()" style="text-align:center;">Start Over</button></a>
-					</div>
-					<div class="col-sm-3" style="height: 100%;"></div>
-
-				</div>
-			</div>
-
 
 
 

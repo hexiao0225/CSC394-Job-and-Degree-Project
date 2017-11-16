@@ -13,19 +13,21 @@ from models import Keyword, Job, Degree, JobKeywords, DegreeKeywords
 def recomend(keywords, target="job"):
     key_ids = []
     for k in keywords:
-        key_obj = Keyword.query.filter_by(key=k).first() #could be optimized by having the ID's sent back instead of the actual keyword
+        key_obj = Keyword.query.filter_by(key=str(k)).first() #could be optimized by having the ID's sent back instead of the actual keyword
         key_ids.append(key_obj.id)
     if target == "job":
-        store = getJobReferences()
+        store = getJobReferences(key_ids)
     elif target == "degree":
-        store = getDegreeReferences()
-    return maxfind(store)
+        store = getDegreeReferences(key_ids)
+    id = maxfind(store)
+    job = Job.query.get(id)
+    return job.title
 
 
 def getJobReferences(keywordIDs):
     store = {}
-    for k_id in keywordIDS:
-        jobIDs_by_keyword = [q.jobID for q in JobKeywords.query.filter(keywordID=k_id)]
+    for k_id in keywordIDs:
+        jobIDs_by_keyword = [q.jobID for q in JobKeywords.query.filter_by(keywordID=k_id)]
         for job_id in jobIDs_by_keyword:
             if job_id not in store.keys():
                 store[job_id] = 1

@@ -4,6 +4,7 @@ from flask import Flask, current_app, render_template, request, jsonify, json
 
 from config import app
 from models import db, Keyword, Job, Degree, JobKeywords, DegreeKeywords, KeywordAnswer, KeywordQuestion
+from algo import recomend
 
 @app.route('/', methods=['GET'])
 def index():
@@ -111,9 +112,10 @@ def getRandomQuestionList(skillList):
         resp.append(jsonResponse)
     return resp
 
-@app.route('/api/retrieveResults', methods=['POST'])
+@app.route("/api/results", methods=['POST'])
 def getResults():
-    target = data
+    print request.values.values()
+    return jsonify(recomend(request.values.values(), "job"))
 
 
 #For testing only, production will need a different server
