@@ -50,6 +50,7 @@
 		if (q2_response != q2_answer) {
 			toggleSkill(q2_skill);
 		}
+		generateResults();
 	}
 
 	function setQuestionResponse_a(response) {
@@ -59,6 +60,19 @@
 	function setQuestionResponse_aa(response) {
 		q2_response = response;
 	}
+
+	function generateResults() {
+		resp = {}
+		for(var i=0; i < user_skills.length; i++) {
+			resp['q'.concat(i.toString())] = user_skills[i];
+		}
+		console.log(resp);
+		$.post("/api/results",
+				resp,
+				function ( data, response ) {
+					alert(data);
+	})
+}
 
 
 	function generateQuestions() {
@@ -76,7 +90,6 @@
 					for( var i in data[0]['answers'] ) {
 							questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\" onClick=\"setQuestionResponse_a(\'" + data[0]['answers'][i] + "\')\">" + data[0]['answers'][i] + "</button>"
 						}
-						alert(questionAnswers);
 					$("#answerSection_a").html(questionAnswers);
 					q1_answer = data[0]['correctAnswer'];
 					q1_skill = data[0]['skill'];
