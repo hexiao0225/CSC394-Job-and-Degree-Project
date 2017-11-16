@@ -116,6 +116,32 @@ jk_13 = JobKeywords(keywordID=k_c.id, jobID=j_e.id)
 jk_14 = JobKeywords(keywordID=k_e.id, jobID=j_e.id)
 jk_15 = JobKeywords(keywordID=k_i.id, jobID=j_e.id)
 
+
+
+
+print "Adding languages to jobs"
+lj_1 = JobKeywords(keywordID = k_k.id, jobID=j_a.id)
+lj_2 = JobKeywords(keywordID = k_l.id, jobID=j_b.id)
+lj_3 = JobKeywords(keywordID = k_q.id, jobID=j_b.id)
+lj_4 = JobKeywords(keywordID = k_o.id, jobID=j_c.id)
+lj_5 = JobKeywords(keywordID = k_p.id, jobID=j_c.id)
+lj_6 = JobKeywords(keywordID = k_m.id, jobID=j_d.id)
+lj_7 = JobKeywords(keywordID = k_k.id, jobID=j_d.id)
+lj_8 = JobKeywords(keywordID = k_n.id, jobID=j_e.id)
+
+
+print "Staging language relationships"
+
+db.session.add(lj_1)
+db.session.add(lj_2)
+db.session.add(lj_3)
+db.session.add(lj_4)
+db.session.add(lj_5)
+db.session.add(lj_6)
+db.session.add(lj_7)
+db.session.add(lj_8)
+
+
 print "Staging keyword relationships..."
 db.session.add(dk_1)
 db.session.add(dk_2)
@@ -161,11 +187,11 @@ q_d = KeywordQuestion(keywordID=k_l.id, question="______ selectors, which are us
 q_e = KeywordQuestion(keywordID=k_l.id, question="______ selectors, which are used to specify a group of elements")
 q_f = KeywordQuestion(keywordID=k_l.id, question="In css what does h1 can be called as")
 
-q_g = KeywordQuestion(keywordID=k_m.id, question='What does this code produce? [NSString] *myString = @“Hello World”;')
+q_g = KeywordQuestion(keywordID=k_m.id, question='What does this code produce? [NSString] *myString = @"Hello World";')
 q_h = KeywordQuestion(keywordID=k_m.id, question="What does an Objective-C string literal look like?")
 q_i = KeywordQuestion(keywordID=k_m.id, question= "What is the type of @selector(foo)?")
 
-q_j = KeywordQuestion(keywordID=k_n.id, question='The “%” in Perl is used for')
+q_j = KeywordQuestion(keywordID=k_n.id, question='The "%" in Perl is used for')
 q_k = KeywordQuestion(keywordID=k_n.id, question="Arrays are denoted by _____ in Perl")
 q_l = KeywordQuestion(keywordID=k_n.id, question="Which of the following is used in perl?")
 
