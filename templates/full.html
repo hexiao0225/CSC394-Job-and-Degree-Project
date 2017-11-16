@@ -22,6 +22,15 @@
 
 	var user_skills = [];
 
+	q1_response = "";
+	q2_response = "";
+
+	q1_answer = "";
+	q2_answer = "";
+
+	q1_skill = "";
+	q2_skill = "";
+
 	function toggleSkill (newSkill) {
 		for (var i = 0; i < user_skills.length; i++){
 			if (user_skills[i] == newSkill){
@@ -31,6 +40,27 @@
 		}
 		user_skills.push(newSkill);
 	}
+
+	function checkAnswer_a(){
+		if (q1_response != q1_answer) {
+			toggleSkill(q1_skill);
+		}
+	}
+	function checkAnswer_aa(){
+		if (q2_response != q2_answer) {
+			toggleSkill(q2_skill);
+		}
+		alert(user_skills);
+	}
+
+	function setQuestionResponse_a(response) {
+		q1_response = response;
+	}
+
+	function setQuestionResponse_aa(response) {
+		q2_response = response;
+	}
+
 
 	function generateQuestions() {
 		//Returns questions in format
@@ -45,21 +75,24 @@
 					questionAnswers = "";
 					$("#questionSection_a").html(data[0]['question'])
 					for( var i in data[0]['answers'] ) {
-							questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data[0]['answers'][i] + "</button>"
+							questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\" onClick=\"setQuestionResponse_a(\'" + data[0]['answers'][i] + "\')\">" + data[0]['answers'][i] + "</button>"
 						}
+						alert(questionAnswers);
 					$("#answerSection_a").html(questionAnswers);
+					q1_answer = data[0]['correctAnswer'];
+					q1_skill = data[0]['skill'];
 
 					questionAnswers = "";
 					$("#questionSection_aa").html(data[1]['question'])
 					for( var i in data[1]['answers'] ) {
-							questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data[1]['answers'][i] + "</button>"
+							questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\" onClick=\"setQuestionResponse_aa(\'" + data[1]['answers'][i] + "\')\">" + data[1]['answers'][i] + "</button>"
 						}
 					$("#answerSection_aa").html(questionAnswers);
-					// $("questionSection_b").html(data[1]['question'])
-					// for(var i in data) {
-					// 	console.log(data[i]['question']);
-					// }
+					q2_answer = data[1]['correctAnswer'];
+					q2_skill = data[1]['skill'];
 
+					console.log(q1_answer);
+					console.log(q2_answer);
 				});
 	}
 
@@ -324,7 +357,7 @@
 					<div class="col-sm-6" style="height: 100%;" ></div>
 					<div ng-click="stepfive()" class="col-sm-3" style="height: 100%;text-align: left;">
 						<!-- <a href="#" class = "skip">Skip</a> -->
-						<a href="/#results"><button type="button" class="roundbutton">></button></a>
+						<a href="/#q5"><button type="button" class="roundbutton" onClick="checkAnswer_a()">></button></a>
 					</div>
 				</div>
 			</div>
@@ -333,7 +366,7 @@
 
 
 			<!-- this is page 4 -->
-			<div id="q4" class="container" ng-switch-when="four" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+			<div id="q5" class="container" ng-switch-when="four" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
 				<div class="row" style="height:5%"></div>
 				<div class="row" style="height:12%">
 
@@ -390,7 +423,7 @@
 					<div class="col-sm-6" style="height: 100%;" ></div>
 					<div ng-click="stepfive()" class="col-sm-3" style="height: 100%;text-align: left;">
 						<!-- <a href="#" class = "skip">Skip</a> -->
-						<a href="/#results"><button type="button" class="roundbutton">></button></a>
+						<a href="/#results"><button type="button" class="roundbutton"onClick="checkAnswer_aa()">></button></a>
 					</div>
 				</div>
 			</div>
