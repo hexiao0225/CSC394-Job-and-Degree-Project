@@ -31,6 +31,15 @@
 	q1_skill = "";
 	q2_skill = "";
 
+
+	descriptions = {
+		'web developer' : 'The role is responsible for designing, coding and modifying websites, from layout to function and according to a client\'s specifications. Strive to create visually appealing sites that feature user-friendly design and clear navigation.',
+		'data scientist' : 'Data Scientist duties typically include creating various Machine Learning-based tools or processes within the company, such as recommendation engines or automated lead scoring systems. People within this role should also be able to perform statistical analysis.',
+		'network engineer' : 'Also known as computer network architects, network engineers work with a company\'s computer network, using information technology to make network systems for all employees to use. These data networks can include local area networks (LANs), wide area networks (WANs), intranets and extranets.',
+		'software engineer' : 'software engineering description',
+	}
+
+
 	function toggleSkill (newSkill) {
 		for (var i = 0; i < user_skills.length; i++){
 			if (user_skills[i] == newSkill){
@@ -70,7 +79,9 @@
 		$.post("/api/results",
 				resp,
 				function ( data, response ) {
-					$("#result_1").html("<h1>" + data + "</h1>")
+					$("#result_1").html("<h1>" + data + "</h1>");
+					$("#result_description").html("<p>" + descriptions[data] + "</p>");
+					alert(descriptions[data]);
 	})
 }
 
@@ -469,7 +480,7 @@
 						<div class="row" style="height:10%">
 							<div class="col-sm-3" style="height: 100%;"></div>
 							<div class="col-sm-9" style="height: 100%;text-align:left;font-size: 25px;">
-								<h3>Your best matches are</h3>
+								<h3>Your best match is</h3>
 							</div>
 						</div>
 
@@ -486,7 +497,7 @@
 							<div class="col-sm-5" style="height: 100%;text-align:left">
 								<div>
 									<p id = "result_1" style="font-size:20px;font-weight: bold">
-
+										<div id="result_description"></div>
 									</p>
 									<!-- <div style="font-size:15px;font-weight: lighter;">
 										<p>Java developer roles and responsibilities include managing Java/Java EE application development while providing expertise in the full software development lifecycle, from concept and design to testing.</p>
@@ -523,7 +534,7 @@
 						</div>
 
 
-
+<!--
 						<div class="row" style="height:10%;text-align: right;">
 							<div class="col-sm-4" style="height: 100%;"></div>
 							<div class="col-sm-2" style="height: 100%;text-align: right;">
@@ -533,10 +544,10 @@
 										<button class="btn btn-secondary" type="button" style="width: 140px;text-align:center;padding: 2px;">Text Me My Results!</button>
 									</span>
 								</div>
-							</div>
+							</div> -->
 
 
-							<div class="col-sm-3" style="height: 100%;text-align: right;" >
+							<div class="col-sm-3" style="height: 100%;text-align: center;" >
 								<a href="/#homepage"><button class="btn" ng-click="stepone();setalltofalse()" style="text-align:center;">Start Over</button></a>
 							</div>
 							<div class="col-sm-3" style="height: 100%;"></div>

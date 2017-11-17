@@ -114,7 +114,6 @@ def getRandomQuestionList(skillList):
 
 @app.route("/api/results", methods=['POST'])
 def getResults():
-    print request.values.values()
     return jsonify(recomend(request.values.values(), "job"))
 
 
