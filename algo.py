@@ -10,7 +10,7 @@ TODO
 
 from models import Keyword, Job, Degree, JobKeywords, DegreeKeywords
 
-def recomend(keywords, target="job"):
+def recomend(keywords, target):
     key_ids = []
     for k in keywords:
         key_obj = Keyword.query.filter_by(key=str(k)).first() #could be optimized by having the ID's sent back instead of the actual keyword
@@ -20,8 +20,12 @@ def recomend(keywords, target="job"):
     elif target == "degree":
         store = getDegreeReferences(key_ids)
     id = maxfind(store)
-    job = Job.query.get(id)
-    return job.title
+    if target == "job":
+        job = Job.query.get(id)
+        return job.title
+    elif target == "degree":
+        degree = Degree.query.get(id)
+        return degree.title
 
 
 def getJobReferences(keywordIDs):
@@ -37,8 +41,8 @@ def getJobReferences(keywordIDs):
 
 def getDegreeReferences(keywordIDs):
     store = {}
-    for k_id in keywordIDS:
-        degreeIDs_by_keyword = [q.degreeID for q in DegreeKeywords.query.filter(keywordID=k_id)]
+    for k_id in keywordIDs:
+        degreeIDs_by_keyword = [q.degreeID for q in DegreeKeywords.query.filter_by(keywordID=k_id)]
         for degree_id in degreeIDs_by_keyword:
             if degree_id not in store.keys():
                 store[degree_id] = 1

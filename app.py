@@ -11,7 +11,30 @@ def index():
     """
     Return Home Page
     """
-    return render_template('full.html')
+    return render_template('index.html')
+
+
+@app.route('/job', methods=['GET'])
+def jobPage():
+    """
+    Return Home Page
+    """
+    return render_template('job.html')
+
+@app.route('/degree', methods=['GET'])
+def degreePage():
+    """
+    Return Home Page
+    """
+    return render_template('degree.html')
+
+
+
+
+
+
+
+
 
 #STEP ONE
 @app.route('/api/titles', methods=['GET'])
@@ -113,8 +136,12 @@ def getRandomQuestionList(skillList):
     return resp
 
 @app.route("/api/results", methods=['POST'])
-def getResults():
+def getJobResults():
     return jsonify(recomend(request.values.values(), "job"))
+
+@app.route("/api/results/degree", methods=['POST'])
+def getDegreeResults():
+    return jsonify(recomend(request.values.values(), "degree"))
 
 
 #For testing only, production will need a different server

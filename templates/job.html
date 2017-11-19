@@ -1,0 +1,535 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Job and Degree Website</title>
+	<meta name="viewport" content="width=device-width" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+	<script rel="stylesheet" type="text/javascript" src="/static/js/ui-bootstrap-2.4.0.js"></script>
+	<script rel="stylesheet" type="text/javascript" src="/static/js/ui-bootstrap-tpls-2.4.0.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+
+	<script>
+
+
+	var user_skills = [];
+
+	q1_response = "";
+	q2_response = "";
+
+	q1_answer = "";
+	q2_answer = "";
+
+	q1_skill = "";
+	q2_skill = "";
+
+
+	descriptions = {
+		'web developer' : 'The role is responsible for designing, coding and modifying websites, from layout to function and according to a client\'s specifications. Strive to create visually appealing sites that feature user-friendly design and clear navigation.',
+		'data scientist' : 'Data Scientist duties typically include creating various Machine Learning-based tools or processes within the company, such as recommendation engines or automated lead scoring systems. People within this role should also be able to perform statistical analysis.',
+		'network engineer' : 'Also known as computer network architects, network engineers work with a company\'s computer network, using information technology to make network systems for all employees to use. These data networks can include local area networks (LANs), wide area networks (WANs), intranets and extranets.',
+		'software engineer' : 'software engineering description',
+		'software developer' : 'Becoming a software developer, also known as a computer programmer, you\'ll be playing a key role in the design, installation, testing and maintenance of software systems. The programs you create are likely to help businesses be more efficient and provide a better service.',
+	}
+
+
+	function toggleSkill (newSkill) {
+		for (var i = 0; i < user_skills.length; i++){
+			if (user_skills[i] == newSkill){
+				user_skills.splice(i, 1);
+				return;
+			}
+		}
+		user_skills.push(newSkill);
+	}
+
+	function checkAnswer_a(){
+		if (q1_response != q1_answer) {
+			toggleSkill(q1_skill);
+		}
+	}
+	function checkAnswer_aa(){
+		if (q2_response != q2_answer) {
+			toggleSkill(q2_skill);
+		}
+		generateResults();
+	}
+
+	function setQuestionResponse_a(response) {
+		q1_response = response;
+	}
+
+	function setQuestionResponse_aa(response) {
+		q2_response = response;
+	}
+
+	function generateResults() {
+		resp = {}
+		for(var i=0; i < user_skills.length; i++) {
+			resp['q'.concat(i.toString())] = user_skills[i];
+		}
+		console.log(resp);
+		$.post("/api/results",
+				resp,
+				function ( data, response ) {
+					$("#result_1").html("<h1>" + data + "</h1>");
+					$("#result_description").html("<p>" + descriptions[data] + "</p>");
+	})
+}
+
+
+	function generateQuestions() {
+		//Returns questions in format
+		// array made of dictionaries, check the console log
+		resp = {}
+		for(var i=0; i < user_skills.length; i++) {
+			resp['q'.concat(i.toString())] = user_skills[i];
+		}
+		$.post("/api/questions",
+		 		resp,
+				function ( data, response ) {
+					questionAnswers = "";
+					$("#questionSection_a").html(data[0]['question'])
+					for( var i in data[0]['answers'] ) {
+							questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\" onClick=\"setQuestionResponse_a(\'" + data[0]['answers'][i] + "\')\">" + data[0]['answers'][i] + "</button>"
+						}
+					$("#answerSection_a").html(questionAnswers);
+					q1_answer = data[0]['correctAnswer'];
+					q1_skill = data[0]['skill'];
+
+					questionAnswers = "";
+					$("#questionSection_aa").html(data[1]['question'])
+					for( var i in data[1]['answers'] ) {
+							questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\" onClick=\"setQuestionResponse_aa(\'" + data[1]['answers'][i] + "\')\">" + data[1]['answers'][i] + "</button>"
+						}
+					$("#answerSection_aa").html(questionAnswers);
+					q2_answer = data[1]['correctAnswer'];
+					q2_skill = data[1]['skill'];
+				});
+	}
+
+	$.get("/api/titles?target=degree", function( data ) {
+		var degreeButtons = "";
+		for( var i in data ) {
+			degreeButtons += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data[i] + "</button>";
+		}
+		$("#degreeTitleSection").html(degreeButtons);
+	})
+
+
+	$.get("/api/titles?target=job", function( data ) {
+		var jobButtons = "";
+		for( var i in data ) {
+			jobButtons += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data[i] + "</button>";
+		}
+		$("#jobTitleSection").html(jobButtons);
+
+	});
+
+	$.get("/api/skills", function( data ) {
+		var skillButtons = "";
+		for( var i in data ) {
+			skillButtons += "<button type=\"button\" onClick=\"toggleSkill(\'" + data[i] + "\')\" class=\"btnforchoose btn-secondary btn-lg active\">" + data[i] + "</button>";
+		}
+		$("#skillSection_a").html(skillButtons);
+		$("#skillSection_b").html(skillButtons);
+	});
+
+	// $.get("/api/question?skill=csharp", function( data ) {
+	// 	var questionDescription ="<p style=\"padding-bottom: 20px\">" + data['question'] + "</p>"
+	// 	var questionAnswers = "";
+	// 	for( var i in data['options'] ) {
+	// 		questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data['options'][i] + "</button>"
+	// 	}
+	// 	$("#questionSection_a").html(questionDescription);
+	// 	$("#answerSection_a").html(questionAnswers);
+	//
+	// 	$("#questionSection_b").html(questionDescription);
+	// 	$("#answerSection_b").html(questionAnswers);
+	// });
+	</script>
+
+	<head>
+
+
+		<body ng-app = "app" ng-controller="ctrl" ng-switch="step" class="container-fluid" style="margin: 0;padding: 0;height: 100vh;font-family: 'Myriad Pro', sans-serif;">
+
+<div id="q1" class="container" ng-switch-when="two" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+  <div class="row" style="height:5%"></div>
+  <div class="row" style="height:12%">
+
+    <div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+      <a href="/"><button type="button" ng-click="setalltofalse()" class="roundbutton">
+        <span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span></a>
+      </button>
+
+    </div>
+    <div class="col-sm-6" style="height: 100%;">
+
+    </div>
+    <div class="col-sm-3" style="height: 100%;"></div>
+
+  </div>
+
+
+  <div class="row" style="height: 8%">
+    <div class="col-sm-3" style="height: 100%;"></div>
+    <div class="col-sm-6" style="height: 100%;">
+      <div class="progress" style="height: 10px;">
+        <div class="progress-bar" role="progressbar" style="width: 30%;background:#a8c1ce;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+    <div class="col-sm-3" style="height: 100%;"></div>
+  </div>
+
+
+  <div class="row" style="height:10%">
+    <div class="col-sm-3" style="height: 100%;"></div>
+    <div class="col-sm-9" style="height: 100%;text-align:left;font-size: 20px;">I have a masters in</div>
+  </div>
+
+  <div class="row" style="height:40%">
+    <div class="col-sm-3" style="height: 100%;"></div>
+    <div class="col-sm-6" style="height: 100%;">
+
+      <div id="degreeTitleSection">
+      </div>
+
+    </div>
+    <div class="col-sm-2" style="height: 100%;"></div>
+
+  </div>
+
+  <div class="row" style="height:10%">
+    <div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: right;">
+      <a href="/"><button type="button" class="roundbutton"><</button></a>
+    </div>
+    <div class="col-sm-6" style="height: 100%;" ></div>
+    <div class="col-sm-3" style="height: 100%;">
+      <div ng-click="stepthree()">
+        <div style="text-align: left">
+
+          <a href="/job#q2"><button type="button" class="roundbutton" style="text-align: center;">
+
+            >
+          </button></a>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- this is page 3 -->
+
+<div id="q2" class="container" ng-switch-when="three" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+  <div class="row" style="height:5%"></div>
+  <div class="row" style="height:12%">
+
+    <div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+      <a href="/"><button type="button" ng-click="setalltofalse()" class="roundbutton">
+        <span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span></a>
+      </button>
+
+    </div>
+
+    <div class="col-sm-6" style="height: 100%;"></div>
+    <div class="col-sm-3" style="height: 100%;"></div>
+  </div>
+
+  <div class="row" style="height: 8%">
+    <div class="col-sm-3" style="height: 100%;"></div>
+    <div class="col-sm-6" style="height: 100%;">
+      <div class="progress" style="height: 10px;">
+        <div class="progress-bar" role="progressbar" style="width: 60%;background:#a8c1ce;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+    <div class="col-sm-3" style="height: 100%;"></div>
+  </div>
+
+  <div class="row" style="height:10%">
+    <div class="col-sm-3" style="height: 100%;"></div>
+    <div class="col-sm-9" style="height: 100%;text-align:left;font-size: 20px;">
+      <p>I have experience in</p>
+    </div>
+  </div>
+
+  <div class="row" style="height:40%">
+    <div class="col-sm-3" style="height: 100%;"></div>
+    <div class="col-sm-6" style="height: 100%;">
+      <div id="skillSection_b" data-toggle="buttons">
+        <!--<button type="button" ng-repeat="item in skills" ng-click="ischosen(item)" ng-class="{btnforchoose: item.selected == false, btnforchooseselected: item.selected == true}" class="btnforchoose btn-secondary btn-lg active">{item.key}</button>-->
+
+      </div>
+    </div>
+    <div class="col-sm-3" style="height: 100%;"></div>
+  </div>
+
+  <div class="row" style="height:10%">
+    <div ng-click="steptwo()" class="col-sm-3" style="height: 100%;text-align: right;">
+      <a href="/job#q1"><button type="button" class="roundbutton"><</button></a>
+    </div>
+    <div class="col-sm-6" style="height: 100%;" ></div>
+    <div ng-click="stepfour()" class="col-sm-3" style="height: 100%;text-align: left;">
+      <!-- <a href="#" class = "skip" style="text-align: left;padding-right: 30px">Skip</a> -->
+      <a href="/job#q4"><button type="button" class="roundbutton" style="text-align: center;" onClick="generateQuestions()">></button></a>
+    </div>
+  </div>
+</div>
+
+<!-- this is page 4 -->
+<div id="q4" class="container" ng-switch-when="four" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+  <div class="row" style="height:5%"></div>
+  <div class="row" style="height:12%">
+
+    <div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+      <a href="/"><button type="button" ng-click="setalltofalse()" class="roundbutton">
+        <span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span></a>
+      </button>
+
+    </div>
+
+    <div class="col-sm-6" style="height: 100%;"></div>
+    <div class="col-sm-3" style="height: 100%;"></div>
+  </div>
+
+  <div class="row" style="height: 8%">
+    <div class="col-sm-3" style="height: 100%;"></div>
+    <div class="col-sm-6" style="height: 100%;">
+      <div class="progress" style="height: 10px;">
+        <div class="progress-bar" role="progressbar" style="width: 95%;background:#a8c1ce;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+    <div class="col-sm-3" style="height: 100%;"></div>
+  </div>
+
+  <div class="row" style="height:5%">
+    <div class="col-sm-3" style="height: 100%;"></div>
+    <div class="col-sm-9" style="height: 100%;text-align:left;font-size: 20px;">
+      <p>Try these questions</p>
+    </div>
+  </div>
+
+  <div class="row" style="height:45%">
+    <div class="col-sm-3" style="height: 100%;"></div>
+    <div class="col-sm-6" style="height: 100%;text-align: left;font-size: 20px;">
+      <div style="font-weight: lighter;text-align: left">
+        <div id="questionSection_a">
+
+        </div>
+        <div>
+          <div id="answerSection_a" style="padding-bottom: 6px" ng-repeat="option in questions.options">
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-sm-3" style="height: 100%;"></div>
+  </div>
+
+  <div class="row" style="height:10%">
+    <div ng-click="steptwo()" class="col-sm-3" style="height: 100%;text-align: right;">
+      <a href="/job#q2"><button type="button" class="roundbutton"><</button></a>
+    </div>
+    <div class="col-sm-6" style="height: 100%;" ></div>
+    <div ng-click="stepfive()" class="col-sm-3" style="height: 100%;text-align: left;">
+      <!-- <a href="#" class = "skip">Skip</a> -->
+      <a href="/job#q5"><button type="button" class="roundbutton" onClick="checkAnswer_a()">></button></a>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- this is page 4 -->
+<div id="q5" class="container" ng-switch-when="four" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+  <div class="row" style="height:5%"></div>
+  <div class="row" style="height:12%">
+
+    <div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+      <a href="/"><button type="button" ng-click="setalltofalse()" class="roundbutton">
+        <span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span></a>
+      </button>
+
+    </div>
+
+    <div class="col-sm-6" style="height: 100%;"></div>
+    <div class="col-sm-3" style="height: 100%;"></div>
+  </div>
+
+  <div class="row" style="height: 8%">
+    <div class="col-sm-3" style="height: 100%;"></div>
+    <div class="col-sm-6" style="height: 100%;">
+      <div class="progress" style="height: 10px;">
+        <div class="progress-bar" role="progressbar" style="width: 95%;background:#a8c1ce;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+    <div class="col-sm-3" style="height: 100%;"></div>
+  </div>
+
+  <div class="row" style="height:5%">
+    <div class="col-sm-3" style="height: 100%;"></div>
+    <div class="col-sm-9" style="height: 100%;text-align:left;font-size: 20px;">
+      <p>Try these questions</p>
+    </div>
+  </div>
+
+  <div class="row" style="height:45%">
+    <div class="col-sm-3" style="height: 100%;"></div>
+    <div class="col-sm-6" style="height: 100%;text-align: left;font-size: 20px;">
+      <div style="font-weight: lighter;text-align: left">
+        <div id="questionSection_aa">
+
+        </div>
+        <div>
+          <div id="answerSection_aa" style="padding-bottom: 6px" ng-repeat="option in questions.options">
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-sm-3" style="height: 100%;"></div>
+  </div>
+
+  <div class="row" style="height:10%">
+    <div ng-click="steptwo()" class="col-sm-3" style="height: 100%;text-align: right;">
+      <a href="/job#q2"><button type="button" class="roundbutton"><</button></a>
+    </div>
+    <div class="col-sm-6" style="height: 100%;" ></div>
+    <div ng-click="stepfive()" class="col-sm-3" style="height: 100%;text-align: left;">
+      <!-- <a href="#" class = "skip">Skip</a> -->
+      <a href="/job#results"><button type="button" class="roundbutton"onClick="checkAnswer_aa()">></button></a>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- this is page 5 -->
+
+    <div id="results" class="container" ng-switch-when="five" style="height: 100%;text-align:center;background-color: #fad890;width: 100%;">
+      <div class="row" style="height:5%"></div>
+      <div class="row" style="height:10%">
+        <div ng-click="stepone()" class="col-sm-3" style="height: 100%;text-align: left;padding-left: 60px">
+          <a href="/"><button type="button" ng-click="setalltofalse()" class="roundbutton">
+            <span class="glyphicon glyphicon-home" style="font-size: 1.3em;color:#a8c1ce;padding-top: 5px"></span></a>
+          </button>
+
+        </div>
+
+        <div class="col-sm-6" style="height: 100%;"></div>
+        <div class="col-sm-3" style="height: 100%;"></div>
+
+      </div>
+
+      <div class="row" style="height:10%">
+        <div class="col-sm-3" style="height: 100%;"></div>
+        <div class="col-sm-9" style="height: 100%;text-align:left;font-size: 25px;">
+          <h3>Your best match is</h3>
+        </div>
+      </div>
+
+      <!-- first result -->
+
+      <div class="row" style="height:25%">
+        <div class="col-sm-3" style="height: 100%;">
+
+        </div>
+        <!-- <div class="col-sm-1">
+          <p class="result_position">1.</p>
+        </div> -->
+
+        <div class="col-sm-5" style="height: 100%;text-align:left">
+          <div>
+            <p id = "result_1" style="font-size:20px;font-weight: bold">
+              <div id="result_description"></div>
+            </p>
+            <!-- <div style="font-size:15px;font-weight: lighter;">
+              <p>Java developer roles and responsibilities include managing Java/Java EE application development while providing expertise in the full software development lifecycle, from concept and design to testing.</p>
+            </div> -->
+          </div>
+        </div>
+        <div class="col-sm-3" style="height: 100%;"></div>
+      </div>
+
+
+      <!-- second result -->
+
+      <div class="row" style="height:25%">
+        <div class="col-sm-3" style="height: 100%;">
+          <img src="/static/img/polarbear.gif" style="height: 120%;width: auto;">
+        </div>
+        <!-- <div class="col-sm-1">
+          <p class="result_position">2.</p>
+        </div> -->
+
+        <div  class="col-sm-5" style="height: 100%;text-align:left">
+          <div>
+
+            <p id = "result_2" style="font-size:20px;font-weight: bold">
+
+            </p>
+            <!-- <div style="font-size:15px;font-weight: lighter;">
+              <p>Your primary responsibility will be to design and develop these applications, and to coordinate with the rest of the team working on different layers of the infrastructure.</p>
+            </div> -->
+          </div>
+        </div>
+        <div class="col-sm-3" style="height: 100%;">
+        </div>
+      </div>
+
+
+<!--
+      <div class="row" style="height:10%;text-align: right;">
+        <div class="col-sm-4" style="height: 100%;"></div>
+        <div class="col-sm-2" style="height: 100%;text-align: right;">
+          <div class="input-group" style="width: 250px;">
+            <input id="phone-input" type="text" class="form-control" placeholder="xxx xxx-xxxx">
+            <span class="input-group-btn">
+              <button class="btn btn-secondary" type="button" style="width: 140px;text-align:center;padding: 2px;">Text Me My Results!</button>
+            </span>
+          </div>
+        </div> -->
+
+
+        <div class="col-sm-3 col-sm-offset-6" style="height: 100%;text-align: center;" >
+          <a href="/"><button class="btn" ng-click="stepone();setalltofalse()" style="text-align:center;">Start Over</button></a>
+        </div>
+        <div class="col-sm-3" style="height: 100%;"></div>
+
+      </div>
+    </div>
+
+</body>
+</html>

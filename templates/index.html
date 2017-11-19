@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Job and Degree Website</title>
+	<meta name="viewport" content="width=device-width" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+	<script rel="stylesheet" type="text/javascript" src="/static/js/ui-bootstrap-2.4.0.js"></script>
+	<script rel="stylesheet" type="text/javascript" src="/static/js/ui-bootstrap-tpls-2.4.0.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+
+	<script>
+
+
+	var user_skills = [];
+
+	q1_response = "";
+	q2_response = "";
+
+	q1_answer = "";
+	q2_answer = "";
+
+	q1_skill = "";
+	q2_skill = "";
+
+
+	descriptions = {
+		'web developer' : 'The role is responsible for designing, coding and modifying websites, from layout to function and according to a client\'s specifications. Strive to create visually appealing sites that feature user-friendly design and clear navigation.',
+		'data scientist' : 'Data Scientist duties typically include creating various Machine Learning-based tools or processes within the company, such as recommendation engines or automated lead scoring systems. People within this role should also be able to perform statistical analysis.',
+		'network engineer' : 'Also known as computer network architects, network engineers work with a company\'s computer network, using information technology to make network systems for all employees to use. These data networks can include local area networks (LANs), wide area networks (WANs), intranets and extranets.',
+		'software engineer' : 'software engineering description',
+		'software developer' : 'Becoming a software developer, also known as a computer programmer, you\'ll be playing a key role in the design, installation, testing and maintenance of software systems. The programs you create are likely to help businesses be more efficient and provide a better service.',
+	}
+
+
+	function toggleSkill (newSkill) {
+		for (var i = 0; i < user_skills.length; i++){
+			if (user_skills[i] == newSkill){
+				user_skills.splice(i, 1);
+				return;
+			}
+		}
+		user_skills.push(newSkill);
+	}
+
+	function checkAnswer_a(){
+		if (q1_response != q1_answer) {
+			toggleSkill(q1_skill);
+		}
+	}
+	function checkAnswer_aa(){
+		if (q2_response != q2_answer) {
+			toggleSkill(q2_skill);
+		}
+		generateResults();
+	}
+
+	function setQuestionResponse_a(response) {
+		q1_response = response;
+	}
+
+	function setQuestionResponse_aa(response) {
+		q2_response = response;
+	}
+
+	function generateResults() {
+		resp = {}
+		for(var i=0; i < user_skills.length; i++) {
+			resp['q'.concat(i.toString())] = user_skills[i];
+		}
+		console.log(resp);
+		$.post("/api/results",
+				resp,
+				function ( data, response ) {
+					$("#result_1").html("<h1>" + data + "</h1>");
+					$("#result_description").html("<p>" + descriptions[data] + "</p>");
+	})
+}
+
+
+	function generateQuestions() {
+		//Returns questions in format
+		// array made of dictionaries, check the console log
+		resp = {}
+		for(var i=0; i < user_skills.length; i++) {
+			resp['q'.concat(i.toString())] = user_skills[i];
+		}
+		$.post("/api/questions",
+		 		resp,
+				function ( data, response ) {
+					questionAnswers = "";
+					$("#questionSection_a").html(data[0]['question'])
+					for( var i in data[0]['answers'] ) {
+							questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\" onClick=\"setQuestionResponse_a(\'" + data[0]['answers'][i] + "\')\">" + data[0]['answers'][i] + "</button>"
+						}
+					$("#answerSection_a").html(questionAnswers);
+					q1_answer = data[0]['correctAnswer'];
+					q1_skill = data[0]['skill'];
+
+					questionAnswers = "";
+					$("#questionSection_aa").html(data[1]['question'])
+					for( var i in data[1]['answers'] ) {
+							questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\" onClick=\"setQuestionResponse_aa(\'" + data[1]['answers'][i] + "\')\">" + data[1]['answers'][i] + "</button>"
+						}
+					$("#answerSection_aa").html(questionAnswers);
+					q2_answer = data[1]['correctAnswer'];
+					q2_skill = data[1]['skill'];
+				});
+	}
+
+	$.get("/api/titles?target=degree", function( data ) {
+		var degreeButtons = "";
+		for( var i in data ) {
+			degreeButtons += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data[i] + "</button>";
+		}
+		$("#degreeTitleSection").html(degreeButtons);
+	})
+
+
+	$.get("/api/titles?target=job", function( data ) {
+		var jobButtons = "";
+		for( var i in data ) {
+			jobButtons += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data[i] + "</button>";
+		}
+		$("#jobTitleSection").html(jobButtons);
+
+	});
+
+	$.get("/api/skills", function( data ) {
+		var skillButtons = "";
+		for( var i in data ) {
+			skillButtons += "<button type=\"button\" onClick=\"toggleSkill(\'" + data[i] + "\')\" class=\"btnforchoose btn-secondary btn-lg active\">" + data[i] + "</button>";
+		}
+		$("#skillSection_a").html(skillButtons);
+		$("#skillSection_b").html(skillButtons);
+	});
+
+	// $.get("/api/question?skill=csharp", function( data ) {
+	// 	var questionDescription ="<p style=\"padding-bottom: 20px\">" + data['question'] + "</p>"
+	// 	var questionAnswers = "";
+	// 	for( var i in data['options'] ) {
+	// 		questionAnswers += "<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block active\">" + data['options'][i] + "</button>"
+	// 	}
+	// 	$("#questionSection_a").html(questionDescription);
+	// 	$("#answerSection_a").html(questionAnswers);
+	//
+	// 	$("#questionSection_b").html(questionDescription);
+	// 	$("#answerSection_b").html(questionAnswers);
+	// });
+	</script>
+
+	<head>
+
+
+		<body ng-app = "app" ng-controller="ctrl" ng-switch="step" class="container-fluid" style="margin: 0;padding: 0;height: 100vh;font-family: 'Myriad Pro', sans-serif;">
+			<!-- this is page 1 -->
+
+
+			<div class="container" id="homepage" ng-switch-when="one" style="height: 100%;">
+				<div class="row" style="height:37%;"></div>
+
+				<div class="row" style="height:20%;">
+					<p class="cover-heading" style="font-size: 60pt;font-weight:bold;color:white;text-align:center;">Kalia helps you</p>
+				</div>
+
+				<div class="row" style="height:12%;font-weight:light;">
+					<div class="col-sm-6" style="height: 100%;font-size: 20px;font-weight:lighter;text-align:right;padding-right:50px">
+						<p>find the jobs matching your master degree</p>
+					</div>
+					<div class="col-sm-6" style="height: 100%;font-size: 20px;font-weight:lighter;text-align:left;padding-left:50px;">
+						<p>find master degrees leading to your ideal job</p>
+					</div>
+
+
+				</div>
+				<div class="row" style="height:5%;font-weight:300;">
+					<div class="col-sm-6" ng-click="steptwo()" style="height: 100%;text-align:right;padding-right:100px;">
+						<a href="/job"><button type="button" class="homebtn" style="font-size: 15px;font-weight:lighter;border:1px solid black;" ng-click="callDegreeTitlesApi()">Job</button></a>
+					</div>
+					<div class="col-sm-6" ng-click="stepsix()" style="height: 100%;text-align:left;padding-left:100px;">
+						<a href="/degree"><button type="button" class="homebtn" style="font-size: 15px;font-weight:lighter;border:1px solid black;">Degree</button></a>
+					</div>
+
+
+				</div>
+			</div>
+
+</body>
+</html>
