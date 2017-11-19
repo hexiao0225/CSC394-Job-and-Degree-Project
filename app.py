@@ -5,6 +5,7 @@ from flask import Flask, current_app, render_template, request, jsonify, json
 from config import app
 from models import db, Keyword, Job, Degree, JobKeywords, DegreeKeywords, KeywordAnswer, KeywordQuestion
 from algo import recomend
+from emailResults import sendEmailResults
 
 @app.route('/', methods=['GET'])
 def index():
@@ -142,6 +143,13 @@ def getJobResults():
 @app.route("/api/results/degree", methods=['POST'])
 def getDegreeResults():
     return jsonify(recomend(request.values.values(), "degree"))
+
+
+@app.route("/api/results/email", methods = ['GET'])
+def getResultsEmailed():
+    sendEmailResults("emailAddr", "jobTitle", "job description")
+
+
 
 
 #For testing only, production will need a different server
