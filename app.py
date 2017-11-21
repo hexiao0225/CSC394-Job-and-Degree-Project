@@ -147,7 +147,7 @@ def getDegreeResults():
 
 @app.route("/api/results/email", methods = ['GET'])
 def getResultsEmailed():
-    sendEmailResults("emailAddr", "jobTitle", "job description")
+    sendEmailResults(request.args.get('email'), request.args.get('jobTitle'), request.args.get('jobDesc'))
 
 
 

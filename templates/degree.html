@@ -36,16 +36,16 @@
 
 	descriptions = {
 
-    'computer science': 'DePaul\'s graduate Computer Science program is the premier training ground for computing professionals in the Chicago area. Unlike a certificate program, our master\'s courses focus on fundamental concepts that remain constant, even as technology changes rapidly. Unlike more research focused institutions, however, our courses emphasize the programmatic application of these fundamental concepts. Students interested in research will find an abundance of advanced topics --- medical imaging, data mining, algorithmic analysis, and scientific computing, to name a few.',
+    'computer science': 'DePauls graduate Computer Science program is the premier training ground for computing professionals in the Chicago area. Unlike a certificate program, our masters courses focus on fundamental concepts that remain constant, even as technology changes rapidly. Unlike more research focused institutions, however, our courses emphasize the programmatic application of these fundamental concepts. Students interested in research will find an abundance of advanced topics --- medical imaging, data mining, algorithmic analysis, and scientific computing, to name a few.',
     'data science': 'Data Science is a new discipline that sits at the nexus of computer science, statistics, and business. A data scientist identifies opportunities for organizations, whether they be Fortune 500 companies, small businesses, start-ups with data driven products, government offices, or non-profits by unearthing solutions to business challenges. Organizations need to make the most of their data. Because of this need, data scientists are in great demand, commanding six-figure salaries. According to glassdoor.com, data science positions are among the top for work-life balance and ranks it Number 1 on a "Best 25 Jobs List" in 2016.',
     'human computer interaction': 'The Master of Science in Human-Computer Interaction prepares students to ideate, design, implement, and evaluate computer-based technologies so they are useful and usable for end users. This interdisciplinary degree integrates concepts and methods from computer science, graphic design and the social sciences. Drawing upon these concepts and methods, students learn user-centered and participatory design approaches as they create information and communication technologies (ICTs) such as dynamic web sites, mobile apps and desktop applications. Particular emphasis is given to ICT evaluation, exploratory user research, information architecture, interaction design and prototype development.',
     'predictive analytics': 'The MS in Predictive Analytics addresses the growing demand of data scientists that have the right blend of technical and analytical skills to meet the challenge of big data analytics. The curriculum emphasizes technical proficiency and practical experience, and provides students with advanced skills in data mining, multivariate statistics, machine learning, and database processing. Students work on real world analytics problems through industry sponsored data analysis projects or internships in the analytics field. Students can choose among a wide range of electives, including courses at Kellstadt Business school to learn about specific application domains.',
     'software engineering': 'The MS in Software Engineering program provides students with skills that are widely applicable, highly in demand and richly rewarded. Software engineering is a discipline concerned with the processes, methodologies, techniques, and tools of developing high-quality software systems in a cost-effective manner. The Software Engineering program emphasizes the best software engineering practices, current methodologies, emerging technologies, and their applications in various industries. It also emphasizes the development of communication and presentation skills in a team-based software development environment. According to the latest data published by the US Bureau of Labor Statistics, software engineer has been consistently among the fastest growing IT professions in the US, and is projected to be in high demand in the US in the foreseeable future. The Software Engineering curriculum encompasses all important aspects of software engineering, including: requirements engineering, software architecture and design, software construction, software testing and quality assurance, software maintenance, and software project management. The MS. Software Engineering program also offer students the opportunities to specialize in one of the several concentrations',
-		'web developer' : 'The role is responsible for designing, coding and modifying websites, from layout to function and according to a client\'s specifications. Strive to create visually appealing sites that feature user-friendly design and clear navigation.',
+		'web developer' : 'The role is responsible for designing, coding and modifying websites, from layout to function and according to a clients specifications. Strive to create visually appealing sites that feature user-friendly design and clear navigation.',
 		'data scientist' : 'Data Scientist duties typically include creating various Machine Learning-based tools or processes within the company, such as recommendation engines or automated lead scoring systems. People within this role should also be able to perform statistical analysis.',
-		'network engineer' : 'Also known as computer network architects, network engineers work with a company\'s computer network, using information technology to make network systems for all employees to use. These data networks can include local area networks (LANs), wide area networks (WANs), intranets and extranets.',
+		'network engineer' : 'Also known as computer network architects, network engineers work with a companys computer network, using information technology to make network systems for all employees to use. These data networks can include local area networks (LANs), wide area networks (WANs), intranets and extranets.',
 		'software engineer' : 'software engineering description',
-		'software developer' : 'Becoming a software developer, also known as a computer programmer, you\'ll be playing a key role in the design, installation, testing and maintenance of software systems. The programs you create are likely to help businesses be more efficient and provide a better service.',
+		'software developer' : 'Becoming a software developer, also known as a computer programmer, youll be playing a key role in the design, installation, testing and maintenance of software systems. The programs you create are likely to help businesses be more efficient and provide a better service.',
 	}
 
 
@@ -79,19 +79,32 @@
 		q2_response = response;
 	}
 
+function sendEmailResults(email, jobTitle, jobDesc) {
+    resp["email"] = $('#email-input').val();
+    resp["jobTitle"] = jobTitle;
+    resp["jobDesc"] = jobDesc;
+    $.get("/api/results/email", resp);
+  }
+
+
 	function generateResults() {
 		resp = {}
 		for(var i=0; i < user_skills.length; i++) {
 			resp['q'.concat(i.toString())] = user_skills[i];
 		}
 		console.log(resp);
-		$.post("/api/results/degree",
+		$.post("/api/results",
 				resp,
 				function ( data, response ) {
 					$("#result_1").html("<h1>" + data + "</h1>");
 					$("#result_description").html("<p>" + descriptions[data] + "</p>");
+
+          $("#emailResults").html("<button class=\"btn btn-secondary\"type=\"button\" style=\"width: 140px;text-align:center;padding: 2px;\" onClick=\"sendEmailResults(\'matt.t.donnelly@gmail.com\', \'" + data + "\', \'"+ descriptions[data] + "\')\" >Email Me My Results!</button>");
 	})
 }
+
+
+
 
 
 	function generateQuestions() {
@@ -516,17 +529,18 @@
       </div>
 
 
-<!--
-      <div class="row" style="height:10%;text-align: right;">
+<div class="row" style="height:10%;text-align: right;">
         <div class="col-sm-4" style="height: 100%;"></div>
         <div class="col-sm-2" style="height: 100%;text-align: right;">
           <div class="input-group" style="width: 250px;">
-            <input id="phone-input" type="text" class="form-control" placeholder="xxx xxx-xxxx">
+            <input id="email-input" type="text" class="form-control">
             <span class="input-group-btn">
-              <button class="btn btn-secondary" type="button" style="width: 140px;text-align:center;padding: 2px;">Text Me My Results!</button>
+              <div id = "emailResults">
+              <!-- <button class="btn btn-secondary" type="button" style="width: 140px;text-align:center;padding: 2px;">Email Me My Results!</button> -->
+            </div>
             </span>
           </div>
-        </div> -->
+        </div> 
 
 
         <div class="col-sm-3 col-sm-offset-6" style="height: 100%;text-align: center;" >

@@ -33,11 +33,11 @@
 
 
 	descriptions = {
-		'web developer' : 'The role is responsible for designing, coding and modifying websites, from layout to function and according to a client\'s specifications. Strive to create visually appealing sites that feature user-friendly design and clear navigation.',
+		'web developer' : 'The role is responsible for designing, coding and modifying websites, from layout to function and according to a clients specifications. Strive to create visually appealing sites that feature user-friendly design and clear navigation.',
 		'data scientist' : 'Data Scientist duties typically include creating various Machine Learning-based tools or processes within the company, such as recommendation engines or automated lead scoring systems. People within this role should also be able to perform statistical analysis.',
-		'network engineer' : 'Also known as computer network architects, network engineers work with a company\'s computer network, using information technology to make network systems for all employees to use. These data networks can include local area networks (LANs), wide area networks (WANs), intranets and extranets.',
+		'network engineer' : 'Also known as computer network architects, network engineers work with a companys computer network, using information technology to make network systems for all employees to use. These data networks can include local area networks (LANs), wide area networks (WANs), intranets and extranets.',
 		'software engineer' : 'software engineering description',
-		'software developer' : 'Becoming a software developer, also known as a computer programmer, you\'ll be playing a key role in the design, installation, testing and maintenance of software systems. The programs you create are likely to help businesses be more efficient and provide a better service.',
+		'software developer' : 'Becoming a software developer, also known as a computer programmer, youll be playing a key role in the design, installation, testing and maintenance of software systems. The programs you create are likely to help businesses be more efficient and provide a better service.',
 	}
 
 
@@ -71,6 +71,14 @@
 		q2_response = response;
 	}
 
+  function sendEmailResults(email, jobTitle, jobDesc) {
+    resp["email"] = email;
+    resp["jobTitle"] = jobTitle;
+    resp["jobDesc"] = jobDesc;
+    $.get("/api/results/email", resp);
+  }
+
+
 	function generateResults() {
 		resp = {}
 		for(var i=0; i < user_skills.length; i++) {
@@ -82,6 +90,8 @@
 				function ( data, response ) {
 					$("#result_1").html("<h1>" + data + "</h1>");
 					$("#result_description").html("<p>" + descriptions[data] + "</p>");
+
+          $("#emailResults").html("<button class=\"btn btn-secondary\"type=\"button\" style=\"width: 140px;text-align:center;padding: 2px;\" onClick=\"sendEmailResults(\'matt.t.donnelly@gmail.com\', \'" + data + "\', \'"+ descriptions[data] + "\')\" >Email Me My Results!</button>");
 	})
 }
 
